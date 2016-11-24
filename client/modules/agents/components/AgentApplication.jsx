@@ -313,11 +313,11 @@ class AgentApplication extends React.Component {
 		agent["dateOfBirthYear"] = dateOfBirthYear.value;
 		agent["weight"] = weight.value;
 		agent["height"] = height.value;
-		agent["emergencyContact"] = {
+		agent["emergencyContact"] = [{
 			"emergencyContactFullName" : emergencyContactFullName.value,
 			"emergencyContactMobileNumber" : emergencyContactMobileNumber.value,
 			"emergencyContactRelationship" : emergencyContactRelationship.value
-			};
+			}];
 		agent["academicAttainment"] = this.state.academicAttainment;
 		agent["languageProficiency"] = {
 			"bahasaMalaysiaSpoken" : this.state.isBahasaMalaysiaSpoken,
