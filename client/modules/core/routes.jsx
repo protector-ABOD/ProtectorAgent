@@ -80,7 +80,7 @@ export default function (injectDeps, {FlowRouter}) {
     }
   });   
 
-  publicRoutes.route('/', {
+  privateRoutes.route('/', {
     name: 'landing',
     action() {
 	  mount(MainLayoutCtx, {
