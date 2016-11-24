@@ -3,12 +3,14 @@ import {mount} from 'react-mounter';
 
 import Layout from './components/MainLayout.jsx';
 import Home from './components/Home.jsx';
-import NewUser from '../users/containers/NewUser.js';
 import Login from '../users/containers/Login.js';
+import AgentHome from '../agents/containers/AgentHome.js';
+import AgentTermsAndConditions from '../agents/containers/AgentTermsAndConditions.js';
+import AgentApplication from '../agents/containers/AgentApplication.js';
 
 function redirectIfLoggedIn (ctx, redirect) {
   if (Meteor.userId()) {
-    redirect('/home');
+    redirect('/agent/home');
   }
 }
 
@@ -41,7 +43,42 @@ export default function (injectDeps, {FlowRouter}) {
       Meteor.logout();
       FlowRouter.go('/');
     }
-  }); 
+  });
+
+  privateRoutes.route('/home', {
+    name: 'home',
+    action() {
+	  mount(MainLayoutCtx, {
+	  });
+    }
+  });
+
+  privateRoutes.route('/agent/home', {
+    name: 'agent.home',
+    action() {
+      mount(MainLayoutCtx, {
+        content: () => (<AgentHome />)
+      });
+    }
+  });
+
+  privateRoutes.route('/agent/termsAndConditions', {
+    name: 'agent.termsAndConditions',
+    action() {
+      mount(MainLayoutCtx, {
+        content: () => (<AgentTermsAndConditions />)
+      });
+    }
+  });
+
+  privateRoutes.route('/agent/application', {
+    name: 'agent.application',
+    action() {
+      mount(MainLayoutCtx, {
+        content: () => (<AgentApplication />)
+      });
+    }
+  });   
 
   publicRoutes.route('/', {
     name: 'landing',
@@ -51,15 +88,6 @@ export default function (injectDeps, {FlowRouter}) {
 	  });
     }
   });
-  
-  publicRoutes.route('/register', {
-    name: 'users.new',
-    action() {
-      mount(MainLayoutCtx, {
-        content: () => (<NewUser />)
-      });
-    }
-  });  
 
   publicRoutes.route('/login', {
     name: 'users.login',

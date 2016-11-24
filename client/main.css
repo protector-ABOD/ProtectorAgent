@@ -4,7 +4,8 @@ html, body, body > div, body > div > div {
 	height:100%;
 	padding:0px;
 	margin:0px;
-	background-color:rgb(9,18,27);
+	background-color:#09121B;
+	color:#fec524;
 }
 
 .login-container {
