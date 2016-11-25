@@ -1,3 +1,4 @@
+import React from 'react';
 import AgentApplication from '../components/AgentApplication.jsx';
 import {useDeps, composeWithTracker, composeAll} from 'mantra-core';
 
@@ -18,7 +19,9 @@ export const depsMapper = (context, actions) => ({
   context: () => context
 });
 
+const loadingScreen = () => (<div className="loading-panel">Loading...</div>);
+
 export default composeAll(
-  composeWithTracker(composer),
+  composeWithTracker(composer, loadingScreen),
   useDeps(depsMapper)
 )(AgentApplication);

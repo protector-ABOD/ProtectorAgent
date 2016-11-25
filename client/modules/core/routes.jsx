@@ -2,6 +2,7 @@ import React from 'react';
 import {mount} from 'react-mounter';
 
 import Layout from './components/MainLayout.jsx';
+import LoginLayout from './components/LoginLayout.jsx';
 import Home from './components/Home.jsx';
 import Login from '../users/containers/Login.js';
 import AgentHome from '../agents/containers/AgentHome.js';
@@ -22,6 +23,7 @@ function checkLoggedIn (ctx, redirect) {
 
 export default function (injectDeps, {FlowRouter}) {
   const MainLayoutCtx = injectDeps(Layout);
+  const LoginLayoutCtx = injectDeps(LoginLayout);
 
   var privateRoutes = FlowRouter.group({  
     name: 'private',
@@ -83,16 +85,17 @@ export default function (injectDeps, {FlowRouter}) {
   privateRoutes.route('/', {
     name: 'landing',
     action() {
-	  mount(MainLayoutCtx, {
+	  /*mount(MainLayoutCtx, {
 	    content: () => (<Home />)
-	  });
+	  });*/
+      FlowRouter.go('/agent/home');
     }
   });
 
   publicRoutes.route('/login', {
     name: 'users.login',
     action() {
-      mount(MainLayoutCtx, {
+      mount(LoginLayoutCtx, {
         content: () => (<Login />)
       });
     }

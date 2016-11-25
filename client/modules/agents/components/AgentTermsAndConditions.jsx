@@ -12,16 +12,17 @@ class AgentTermsAndConditions extends React.Component {
 	}
 	render() {
 		return (
-			<div className="panel-terms-and-conditions">
-				<div className="panel-instructions">
+			<div className="agent-terms-and-conditions">
+				<div className="instructions">
 					<p>Welcome to Protector Agent.</p>
 					<p>We are now collecting applications from all agents.</p>
 					<p>Please go through the forms and fill in your details.</p>
 					<p>Once your application is submitted, we will contact you for interview.</p>
 				</div>
-				<div className="panel-accept-terms-and-conditions">
+				<div className="accept-terms-and-conditions">
 					<p>By selecting proceed, I'm agreeing to the terms and conditions.</p>
-					<button onClick={this.handleAccept}>Proceed</button>
+					<br />
+					<button className="btn btn-default btn-50" onClick={this.handleAccept}>Proceed</button>
 				</div>
 			</div>
 		)
