@@ -8,14 +8,14 @@ class AgentApplication extends React.Component {
 		super(props, context);
 
 		this.state = {
-			isBahasaMalaysiaSpoken: false,
+			/*isBahasaMalaysiaSpoken: false,
 			isBahasaMalaysiaWritten: false,
 			isEnglishSpoken: false,
 			isEnglishWritten: false,
 			isChineseSpoken: false,
 			isChineseWritten: false,
 			isTamilSpoken: false,
-			isTamilWritten: false,
+			isTamilWritten: false,*/
 			academicAttainment: "PMR or equivalent",
 			skills: []
 		};
@@ -27,7 +27,7 @@ class AgentApplication extends React.Component {
 		  optionDay.push(<option key={i} value={i}>{i}</option>);
 		}
 		var optionMonth = [];
-		for (var i = 1; i <= 31; i++) {
+		for (var i = 1; i <= 12; i++) {
 		  optionMonth.push(<option key={i} value={i}>{i}</option>);
 		}
 		var optionYear = [];
@@ -85,10 +85,10 @@ class AgentApplication extends React.Component {
 						</div>
 						<div className="col-xs-6">
 							<div className="col-xs-12 no-pad">
-								<label htmlFor="ethnic">Ethnic</label>
+								<label htmlFor="race">Race</label>
 							</div>
 							<div className="col-xs-12 no-pad">
-								<select ref="ethnic" defaultValue="Malay" className="protector-select">
+								<select ref="race" defaultValue="Malay" className="protector-select">
 									<option value="Malay">Malay</option>
 									<option value="Chinese">Chinese</option>
 									<option value="Indian">Indian</option>
@@ -98,7 +98,7 @@ class AgentApplication extends React.Component {
 						</div>
 					</div>
 					<br />
-					<div className="form-group">
+					{/*<div className="form-group">
 						<div className="row">
 							<div className="col-xs-12">
 								<label htmlFor="address">Address</label>
@@ -127,7 +127,7 @@ class AgentApplication extends React.Component {
 								<input type="text" className="form-control" id="addressCountry" ref="addressCountry" placeholder="Country"/>
 							</div>
 						</div>
-					</div>
+					</div>*/}
 					<div className="form-group">
 						<div className="row">
 							<div className="col-xs-12">
@@ -171,7 +171,11 @@ class AgentApplication extends React.Component {
 						</div>
 					</div>
 					<br />
-					<br />
+					<div className="form-group">
+						<label htmlFor="comment">Comment</label>
+						<textarea className="form-control" id="comment" ref="comment" />
+					</div>
+					{/*<br />
 					<label>Emergency Contact</label>
 					<br />
 					<br />
@@ -186,7 +190,7 @@ class AgentApplication extends React.Component {
 					<div className="form-group">
 						<label htmlFor="emergencyContactRelationship">Relationship</label>
 						<input type="text" className="form-control" id="emergencyContactRelationship" ref="emergencyContactRelationship" placeholder="e.g. 0128888888" />
-					</div>
+					</div>*/}
 					<br />
 					<label>Personal Skills</label>
 					<br />
@@ -217,7 +221,7 @@ class AgentApplication extends React.Component {
 						   value="Master's Degree or Higher" 
 						   checked={this.state.academicAttainment === "Master's Degree or Higher"}
 						   onChange={this.handleRadioChange.bind(this)} /><span className="pad-radio-label">Master's Degree or Higher</span>
-					<br />
+				   {/*<br />
 					<br />
 					<br />
 					<div className="row">
@@ -327,7 +331,7 @@ class AgentApplication extends React.Component {
 						<div className="col-xs-10 no-pad">
 							<input type="text" className="form-control" id="languageOthers" ref="languageOthers" placeholder="e.g. French, Japanese" />
 						</div>
-					</div>
+					</div>*/}
 					<br />
 					<br />
 					<br />
@@ -427,10 +431,10 @@ class AgentApplication extends React.Component {
 		}
 		
 		const {createAgent} = this.props;
-		const {fullName, email, mobileNumber, nricLeft, nricMiddle, nricRight, gender, ethnic, 
-			   address, addressCity, addressPostcode, addressState, addressCountry, dateOfBirthDate,
-			   dateOfBirthMonth, dateOfBirthYear, weight, height, emergencyContactFullName, 
-			   emergencyContactMobileNumber, emergencyContactRelationship, languageOthers} = this.refs;
+		const {fullName, email, mobileNumber, nricLeft, nricMiddle, nricRight, gender, race, 
+			   /*address, addressCity, addressPostcode, addressState, addressCountry,*/ dateOfBirthDate,
+			   dateOfBirthMonth, dateOfBirthYear, weight, height, comment/*emergencyContactFullName, 
+			   emergencyContactMobileNumber, emergencyContactRelationship, languageOthers*/} = this.refs;
 		
 		var agent = {};
 		agent["fullName"] = fullName.value;
@@ -440,24 +444,25 @@ class AgentApplication extends React.Component {
 		agent["nricMiddle"] = nricMiddle.value;
 		agent["nricRight"] = nricRight.value;
 		agent["gender"] = gender.value;
-		agent["ethnic"] = ethnic.value;
-		agent["address"] = address.value;
+		agent["race"] = race.value;
+		/*agent["address"] = address.value;
 		agent["addressCity"] = addressCity.value;
 		agent["addressPostcode"] = addressPostcode.value;
 		agent["addressState"] = addressState.value;
-		agent["addressCountry"] = addressCountry.value;
+		agent["addressCountry"] = addressCountry.value;*/
 		agent["dateOfBirthDate"] = dateOfBirthDate.value;
 		agent["dateOfBirthMonth"] = dateOfBirthMonth.value;
 		agent["dateOfBirthYear"] = dateOfBirthYear.value;
 		agent["weight"] = weight.value;
 		agent["height"] = height.value;
-		agent["emergencyContact"] = [{
+		agent["comment"] = comment.value;
+		/*agent["emergencyContact"] = [{
 			"emergencyContactFullName" : emergencyContactFullName.value,
 			"emergencyContactMobileNumber" : emergencyContactMobileNumber.value,
 			"emergencyContactRelationship" : emergencyContactRelationship.value
-			}];
+		}];*/
 		agent["academicAttainment"] = this.state.academicAttainment;
-		agent["languageProficiency"] = {
+		/*agent["languageProficiency"] = {
 			"bahasaMalaysiaSpoken" : this.state.isBahasaMalaysiaSpoken,
 			"bahasaMalaysiaWritten" : this.state.isBahasaMalaysiaWritten,
 			"englishSpoken" : this.state.isEnglishSpoken,
@@ -467,7 +472,7 @@ class AgentApplication extends React.Component {
 			"tamilSpoken" : this.state.isTamilSpoken,
 			"tamilWritten" : this.state.isTamilWritten,
 			"languageOthers" : languageOthers.value
-			};
+		};*/
 		agent["skills"] = this.state.skills;
 		console.log(agent);
 		createAgent(agent);
