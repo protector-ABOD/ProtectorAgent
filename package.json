@@ -2,6 +2,7 @@
   "name": "ProtectorAgent",
   "private": true,
   "scripts": {
+    "start": "meteor --settings private/settings-development.json",
     "lint": "eslint ./lib ./client ./server --ext .js --ext .jsx",
     "lintfix": "npm run lint -- --fix",
     "testonly": "mocha client/**/tests/**/*.js --compilers js:babel-core/register",
@@ -26,10 +27,11 @@
     "meteor-node-stubs": "~0.2.0"
   },
   "dependencies": {
+    "bootstrap": "^3.3.7",
     "domready": "^1.0.8",
+    "mantra-core": "^1.2.0",
     "react": "^15.4.0",
     "react-dom": "^15.4.0",
-    "mantra-core": "^1.2.0",
     "react-mounter": "^1.0.0"
   }
 }

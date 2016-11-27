@@ -2,13 +2,16 @@ import React from 'react';
 import {mount} from 'react-mounter';
 
 import Layout from './components/MainLayout.jsx';
+import LoginLayout from './components/LoginLayout.jsx';
 import Home from './components/Home.jsx';
-import NewUser from '../users/containers/NewUser.js';
 import Login from '../users/containers/Login.js';
+import AgentHome from '../agents/containers/AgentHome.js';
+import AgentTermsAndConditions from '../agents/containers/AgentTermsAndConditions.js';
+import AgentApplication from '../agents/containers/AgentApplication.js';
 
 function redirectIfLoggedIn (ctx, redirect) {
   if (Meteor.userId()) {
-    redirect('/home');
+    redirect('/agent/home');
   }
 }
 
@@ -20,6 +23,7 @@ function checkLoggedIn (ctx, redirect) {
 
 export default function (injectDeps, {FlowRouter}) {
   const MainLayoutCtx = injectDeps(Layout);
+  const LoginLayoutCtx = injectDeps(LoginLayout);
 
   var privateRoutes = FlowRouter.group({  
     name: 'private',
@@ -41,30 +45,57 @@ export default function (injectDeps, {FlowRouter}) {
       Meteor.logout();
       FlowRouter.go('/');
     }
-  }); 
+  });
 
-  publicRoutes.route('/', {
-    name: 'landing',
+  privateRoutes.route('/home', {
+    name: 'home',
     action() {
 	  mount(MainLayoutCtx, {
-	    content: () => (<Home />)
 	  });
     }
   });
-  
-  publicRoutes.route('/register', {
-    name: 'users.new',
+
+  privateRoutes.route('/agent/home', {
+    name: 'agent.home',
     action() {
       mount(MainLayoutCtx, {
-        content: () => (<NewUser />)
+        content: () => (<AgentHome />)
       });
     }
-  });  
+  });
+
+  privateRoutes.route('/agent/termsAndConditions', {
+    name: 'agent.termsAndConditions',
+    action() {
+      mount(MainLayoutCtx, {
+        content: () => (<AgentTermsAndConditions />)
+      });
+    }
+  });
+
+  privateRoutes.route('/agent/application', {
+    name: 'agent.application',
+    action() {
+      mount(MainLayoutCtx, {
+        content: () => (<AgentApplication />)
+      });
+    }
+  });   
+
+  privateRoutes.route('/', {
+    name: 'landing',
+    action() {
+	  /*mount(MainLayoutCtx, {
+	    content: () => (<Home />)
+	  });*/
+      FlowRouter.go('/agent/home');
+    }
+  });
 
   publicRoutes.route('/login', {
     name: 'users.login',
     action() {
-      mount(MainLayoutCtx, {
+      mount(LoginLayoutCtx, {
         content: () => (<Login />)
       });
     }
