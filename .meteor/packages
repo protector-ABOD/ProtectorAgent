@@ -24,6 +24,6 @@ session
 audit-argument-checks
 random
 accounts-ui
-accounts-facebook
 service-configuration
 check
+particle4dev:cordova-fb

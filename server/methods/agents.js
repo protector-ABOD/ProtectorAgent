@@ -67,7 +67,7 @@ export default function () {
 		AcademicAttainment : agent.academicAttainment,
 		//EmergencyContact : agent.emergencyContact,
 		Skills : agent.skills,
-		ApplicationStatus : "Applied",
+		ApplicationStatus : "Submitted",
 		StatusID : 1,
         CreatedDateTime : createdAt,
 		CreatedBy : userId
