@@ -12,6 +12,11 @@ configureFacebook = function(config) {
 };
 
 export default function () {
+WebApp.rawConnectHandlers.use(function(req, res, next) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  return next();
+});
+
   var facebookConfig = Meteor.settings.facebook;
   if(facebookConfig) {
 	configureFacebook(facebookConfig);
