@@ -5,7 +5,7 @@ class AgentHome extends React.Component {
 	render() {
 		const {agents} = this.props;
 		let elementToRender;
-		if (agents.ApplicationStatus === "Submitted") {
+		if (agents.ApplicationStatus === "Submitted" || agents.ApplicationStatus === "Shortlisted") {
 			elementToRender = <div>
 								  <p>Thank you for submitting your application. We are currently reviewing your application.</p>
 								  <p>If you are shortlisted for the interview, please bring the following documents:</p>
