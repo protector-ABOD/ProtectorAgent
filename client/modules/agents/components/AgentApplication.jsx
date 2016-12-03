@@ -92,6 +92,8 @@ class AgentApplication extends React.Component {
 									<option value="Malay">Malay</option>
 									<option value="Chinese">Chinese</option>
 									<option value="Indian">Indian</option>
+									<option value="Sabah Ethnics">Sabah Ethnics</option>
+									<option value="Sarawak Ethnics">Sarawak Ethnics</option>
 									<option value="Others">Others</option>
 								</select>
 							</div>
@@ -346,10 +348,7 @@ class AgentApplication extends React.Component {
 								<div className="col-xs-3">
 								</div>
 								<div className="col-xs-3 align-middle">
-									Certified
-								</div>
-								<div className="col-xs-3 align-middle">
-									Trained
+									Yes
 								</div>
 								<div className="col-xs-3 align-middle">
 									No
@@ -363,15 +362,8 @@ class AgentApplication extends React.Component {
 									<div className="col-xs-3 align-middle">
 										<input type="radio" name={subskill._id._str} 
 											   data-skill-name={subskill.Skill_Name}
-											   value="Certified" 
-											   checked={this.state[subskill._id._str] === "Certified"}
-											   onChange={this.handleRadioSkillChange.bind(this)} />
-									</div>
-									<div className="col-xs-3 align-middle">
-										<input type="radio" name={subskill._id._str}
-											   data-skill-name={subskill.Skill_Name}
-											   value="Trained" 
-											   checked={this.state[subskill._id._str] === "Trained"}
+											   value="Yes" 
+											   checked={this.state[subskill._id._str] === "Yes"}
 											   onChange={this.handleRadioSkillChange.bind(this)} />
 									</div>
 									<div className="col-xs-3 align-middle">
