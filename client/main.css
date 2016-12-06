@@ -45,9 +45,59 @@ p {
 	text-align: center;
 }
 
+.align-middle {
+	text-align: center;
+}
+
+.no-pad {
+	padding-left: 0px !important;
+	padding-right: 0px !important;
+}
+
+.pad-all-20 {
+	padding: 20px;
+}
+
+.pad-btm {
+	padding-bottom: 15px;
+}
+
+.pad-top-percent-5 {
+	padding-top: 5%;
+}
+
+.pad-top-fixed-15 {
+	padding-top: 15px;
+}
+
+.btn-50 {
+	width: 50%;
+}
+
+.btn-100 {
+	width: 100%;
+}
+
+.cursor-pointer {
+	cursor: pointer;
+}
+
+.row {
+	margin-left:0px !important;
+	margin-right:0px !important;
+}
+
+.text-error {
+	color: red;
+}
+
+.input-error {
+	border: 2px solid red !important;
+}
+
 /* #########################################    login     ######################################### */
 
-#login-body-container {
+.login-body-container {
 	background: url(/images/Login_bg.jpg) no-repeat center center fixed; 
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
@@ -57,59 +107,27 @@ p {
 	min-height:100%;
 }
 
-#login-body {
-	max-width:660px;
-	max-height:1080px;
-	margin:0 auto;
-	text-align:center;
-}
-
-#logo-container {
-	padding-top:15%;
-	margin-left:12.1%;
-	margin-right:12.1%;
-	width:75.8%;
-}
-
 #login-logo {
-	max-height:100%;
-	max-width:100%;
-	display:block;
-	margin:auto;
+	width:100%;
+	max-width:485px;
 }
 
-#fb-login-container {
-	padding-top:70%;
-	margin-left:12.1%;
-	margin-right:12.1%;
-	width:75.8%;
-}
-
-#by-signing-container {
-	padding-top:3%;
-	margin-left:5%;
-	margin-right:5%;
-	width:90%;
-	max-width:660px;
+.active-tab {
+	border-bottom: 2px solid #fec524;
 }
 
 p.login-sign-text {
 	font-size:1.65vmin;
 	letter-spacing :0.3em;
-	text-align:center;
-}
-
-#copyright-container {
-	padding-top:8%;
-	margin-left:12.1%;
-	margin-right:12.1%;
-	width:75.8%;
 }
 
 p.login-copyright-text {
 	font-size:1.4vmin;
 	letter-spacing :0.25em;
-	text-align:center;
+}
+
+.inactive-form {
+	display: none;
 }
 
 /* ######################################### agent home   ######################################### */
@@ -132,26 +150,10 @@ p.login-copyright-text {
 	padding-top: 20%;
 }
 
-.btn-50 {
-	width: 50%;
-}
-
-.no-pad {
-	padding-left: 0px !important;
-	padding-right: 0px !important;
-}
-
 .pad-radio-label {
 	padding-left: 5px;
 }
 
-.align-middle {
-	text-align: center;
-}
-
-.pad-btm {
-	padding-bottom: 15px;
-}
 
 .protector-select {
 	width: 100%;

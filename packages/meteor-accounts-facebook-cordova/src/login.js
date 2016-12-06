@@ -1,11 +1,11 @@
-Accounts.oauth.registerService('facebook');
+//Accounts.oauth.registerService('facebook');
 Meteor.loginWithFacebook = function(options, callback) {
     // support a callback without options
     if (! callback && typeof options === "function") {
         callback = options;
         options = null;
     }
-
+	
     var credentialRequestCompleteCallback = Accounts.oauth.credentialRequestCompleteHandler(callback);
 
     var fbLoginSuccess = function (data) {
@@ -23,7 +23,7 @@ Meteor.loginWithFacebook = function(options, callback) {
                 return;
             }
             if (response.status != "connected") {
-                CFB.loginCodova(function (err, res) {
+                CFB.loginCordova(function (err, res) {
                     if(err) {
                         callback(err, null);
                         return;

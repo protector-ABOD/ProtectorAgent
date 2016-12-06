@@ -35,7 +35,7 @@ var profileFields = [];
 
 //https://github.com/particles4dev-team/meteor-accounts-facebook-cordova/commit/8f8cdb8e8fd3418bd74b0c4ddcf50850ee55b256
 //later version broke web log in, so the code from when it was working is taken (from link above)
-Accounts.oauth.registerService('facebook');
+//Accounts.oauth.registerService('facebook');
 if (Meteor.settings &&
     Meteor.settings["facebook"] &&
     Meteor.settings["facebook"].clientId &&

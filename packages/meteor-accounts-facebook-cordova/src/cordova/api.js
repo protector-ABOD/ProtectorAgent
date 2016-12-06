@@ -10,14 +10,14 @@ CFB.getLoginStatus = function (callback) {
 };
 
 // https://github.com/Wizcorp/phonegap-facebook-plugin#login
-CFB.loginCodova = function (callback) {
+CFB.loginCordova = function (callback) {
     var onError = function (message) {
         callback(new Error(message.errorMessage), null);
     };
     var onSuccess = function (res) {
         callback(null, res);
     };
-    facebookConnectPlugin.login(CFB.getPermissions(), onSuccess, onError);
+    facebookConnectPlugin.login(Meteor.settings.public.facebook.permissions, onSuccess, onError);
 };
 
 // https://github.com/Wizcorp/phonegap-facebook-plugin#show-a-dialog

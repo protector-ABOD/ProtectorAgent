@@ -2,7 +2,8 @@
   "name": "ProtectorAgent",
   "private": true,
   "scripts": {
-    "start": "meteor --settings private/settings-development.json",
+    "startdev": "meteor --settings private/settings-development.json",
+    "startprd": "meteor --settings private/settings-production.json",
     "lint": "eslint ./lib ./client ./server --ext .js --ext .jsx",
     "lintfix": "npm run lint -- --fix",
     "testonly": "mocha client/**/tests/**/*.js --compilers js:babel-core/register",

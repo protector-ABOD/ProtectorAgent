@@ -3,7 +3,7 @@ import {useDeps, composeWithTracker, composeAll} from 'mantra-core';
 
 export const composer = ({context, clearErrors}, onData) => {
   const {LocalState} = context();
-  const error = LocalState.get('LOGIN_ERROR');
+  const error = LocalState.get('ERROR');
   onData(null, {error});
 
   // clearErrors when unmounting the component
@@ -12,6 +12,9 @@ export const composer = ({context, clearErrors}, onData) => {
 
 export const depsMapper = (context, actions) => ({
   clearErrors: actions.users.clearErrors,
+  loginUser: actions.users.loginUser,
+  createNewUser: actions.users.createNewUser,
+  loginWithFacebook: actions.users.loginWithFacebook,
   context: () => context
 });
 
