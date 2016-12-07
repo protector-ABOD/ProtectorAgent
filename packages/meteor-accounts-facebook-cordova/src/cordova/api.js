@@ -17,7 +17,7 @@ CFB.loginCordova = function (callback) {
     var onSuccess = function (res) {
         callback(null, res);
     };
-    facebookConnectPlugin.login(Meteor.settings.public.facebook.permissions, onSuccess, onError);
+    facebookConnectPlugin.login(CFB.getPermissions(), onSuccess, onError);
 };
 
 // https://github.com/Wizcorp/phonegap-facebook-plugin#show-a-dialog

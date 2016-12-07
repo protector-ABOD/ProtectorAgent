@@ -6,7 +6,7 @@ var getIdentity = function (accessToken) {
     	return HTTP.get("https://graph.facebook.com/v2.2/me", {
       		params: {
 				access_token: accessToken, 
-				fields:Meteor.settings.public.facebook.profileFields.join()}
+				fields:CFB.getProfileFields().join()}
 			}).data;
   	} catch (err) {
     	throw _.extend(new Error("Failed to fetch identity from Facebook. " + err.message),
