@@ -85,7 +85,7 @@ development.json
 
 ### API
 * CFB.getLoginStatus(client only)
-* CFB.loginCodova(client only)
+* CFB.loginCordova(client only)
 * CFB.shareFeed(client only)
 * CFB.share(client only)
 * The Graph API (incomplete)

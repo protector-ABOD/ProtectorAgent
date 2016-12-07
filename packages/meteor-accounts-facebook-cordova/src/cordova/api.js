@@ -10,7 +10,7 @@ CFB.getLoginStatus = function (callback) {
 };
 
 // https://github.com/Wizcorp/phonegap-facebook-plugin#login
-CFB.loginCodova = function (callback) {
+CFB.loginCordova = function (callback) {
     var onError = function (message) {
         callback(new Error(message.errorMessage), null);
     };
