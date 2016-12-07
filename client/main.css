@@ -35,14 +35,14 @@ p {
 	padding: 10px;
 }
 
-.main {
-	padding: 20px;
-}
-
 .loading-panel {
 	padding-top:10%;
 	width: 100%;
 	text-align: center;
+}
+
+.content-container {
+	padding: 15px;
 }
 
 .align-middle {
@@ -66,6 +66,10 @@ p {
 	padding-top: 5%;
 }
 
+.pad-top-percent-10 {
+	padding-top: 10%;
+}
+
 .pad-top-fixed-15 {
 	padding-top: 15px;
 }
@@ -80,11 +84,6 @@ p {
 
 .cursor-pointer {
 	cursor: pointer;
-}
-
-.row {
-	margin-left:0px !important;
-	margin-right:0px !important;
 }
 
 .text-error {
@@ -132,9 +131,6 @@ p.login-copyright-text {
 
 /* ######################################### agent home   ######################################### */
 
-.agent-home {
-	padding-top: 10%;
-}
 
 /* ################################# agent terms and conditions ################################### */
 
