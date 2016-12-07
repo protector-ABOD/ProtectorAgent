@@ -13,7 +13,7 @@ const Layout = ({content = () => null }) => (
 		<img id="profile_nav_img3" src="/images/profile_menu.png" />
 
 		</div>
-	  <div className="main">
+	  <div className="main-container">
 		
 		{content()}
 	  </div>

@@ -36,7 +36,7 @@ class AgentApplication extends React.Component {
 		  optionYear.push(<option key={i} value={i}>{i}</option>);
 		}
 		return (
-			<div className="agent-application">
+			<div className="content-container agent-application">
 				<form onSubmit={this.createAgent.bind(this)}>
 					<label>Personal Information</label>
 					<br />
@@ -345,7 +345,7 @@ class AgentApplication extends React.Component {
 							<label>{skill.Skill_Name}</label>
 							<br />
 							<div className="row">
-								<div className="col-xs-3">
+								<div className="col-xs-6">
 								</div>
 								<div className="col-xs-3 align-middle">
 									Yes
@@ -356,7 +356,7 @@ class AgentApplication extends React.Component {
 							</div>
 							{skill.SubSkill.map(subskill => (
 								<div className="row" key={subskill._id}>
-									<div className="col-xs-3">
+									<div className="col-xs-6">
 										{subskill.Skill_Name}
 									</div>
 									<div className="col-xs-3 align-middle">
