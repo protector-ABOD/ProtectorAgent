@@ -23,7 +23,7 @@ class Login extends React.Component {
 	
 		// Just render a placeholder container that will be filled in
 		return (
-			<div className="content-container login-body-container align-middle">
+			<div className="login-body-container align-middle">
 				<div className="row pad-top-percent-5">
 					<div className="col-xs-12">
 						<img id="login-logo" src="/images/Protect_Logo.png" alt="" />

@@ -6,6 +6,7 @@ import LoginLayout from './components/LoginLayout.jsx';
 import Home from './components/Home.jsx';
 import Login from '../users/containers/Login.js';
 import AgentHome from '../agents/containers/AgentHome.js';
+import AgentApplicationInfo from '../agents/containers/AgentApplicationInfo.js';
 import AgentTermsAndConditions from '../agents/containers/AgentTermsAndConditions.js';
 import AgentApplication from '../agents/containers/AgentApplication.js';
 
@@ -64,7 +65,16 @@ export default function (injectDeps, {FlowRouter}) {
     }
   });
 
-  privateRoutes.route('/agent/termsAndConditions', {
+  privateRoutes.route('/agent/application-info', {
+    name: 'agent.applicationInfo',
+    action() {
+      mount(MainLayoutCtx, {
+        content: () => (<AgentApplicationInfo />)
+      });
+    }
+  });   
+
+  privateRoutes.route('/agent/terms-and-conditions', {
     name: 'agent.termsAndConditions',
     action() {
       mount(MainLayoutCtx, {

@@ -1,8 +1,9 @@
 import React from 'react';
 
 const LoginLayout = ({content = () => null }) => (
-  <div>
-  	{content()}
+  <div className="main-container">
+	
+	{content()}
   </div>
 );
 

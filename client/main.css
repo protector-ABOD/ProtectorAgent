@@ -41,7 +41,7 @@ p {
 	text-align: center;
 }
 
-.content-container {
+.main-container {
 	padding: 15px;
 }
 
@@ -54,11 +54,20 @@ p {
 	padding-right: 0px !important;
 }
 
+.pad-top-bottom-fixed-5 {
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.pad-left-fixed-10 {
+	padding-left: 10px;
+}
+
 .pad-all-20 {
 	padding: 20px;
 }
 
-.pad-btm {
+.pad-btm-15 {
 	padding-bottom: 15px;
 }
 
@@ -92,6 +101,83 @@ p {
 
 .input-error {
 	border: 2px solid red !important;
+}
+
+.color-fade {
+	color: #7f7353;
+}
+
+.available-date {
+	background-color: #b2ffb2;
+	color: #000000;
+}
+
+.not-available-date {
+	background-color: #ff6666;
+	color: #ffffff;
+}
+
+.agent-acceptance-container,
+.agent-rating-container,
+.agent-cancellation-container {
+	padding-left:2px;
+	padding-right:2px;
+}
+
+.vertical-align-middle {
+	vertical-align: middle;
+}
+
+.horizontal-line {
+	padding-left: 30px;
+	padding-right: 30px;
+	
+	width: 100%;
+	height: 1px;
+	border-bottom: 1px solid #fec524;
+}
+
+.bottom-bar {
+	background-color:#09121B;
+	position: fixed;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-bottom: 15px;
+}
+
+/* ##################################    font colors and size     ################################## */
+
+.font-blue {
+	color: #5096f2;
+}
+
+.font-light-blue {
+	color: #3dd4e6;
+}
+
+.font-bold {
+	font-weight: 700;
+}
+
+.font-big {
+	font-size: 1.5em;
+}
+
+.font-small {
+	font-size: 0.9em;
+}
+
+@media (max-width: 330px) {
+	.font-big {
+		font-size: 1.0em;
+	}
+
+	.font-small {
+		font-size: 0.9em;
+	}
 }
 
 /* #########################################    login     ######################################### */
@@ -400,8 +486,64 @@ p.percent-text2 {
 }
 
 
+/* ######################################### calendar ######################################### */
 
+.calendar-container {
+	text-align: center;
+	padding: 15px;
+}
 
+.calendar-container > .calendar table {
+	width: 100%;
+}
+
+.calendar-container > .calendar table th,
+.calendar-container > .calendar table td {
+	font-weight: normal;
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+.calendar-container > .calendar table th span::selection {
+	background-color: transparent;
+}
+
+.calendar-container > .calendar table td span::selection {
+	background-color: transparent;
+}
+
+.calendar-container > .calendar table th span::-moz-selection {
+	background-color: transparent;
+}
+
+.calendar-container > .calendar table td span::-moz-selection {
+	background-color: transparent;
+}
+
+.calendar-container > .calendar table th span::-webkit-selection {
+	background-color: transparent;
+}
+
+.calendar-container > .calendar table td span::-webkit-selection {
+	background-color: transparent;
+}
+
+.calendar-container > .calendar table,
+.calendar-container > .calendar table tr,
+.calendar-container > .calendar table th span,
+.calendar-container > .calendar table td span,
+.calendar-container > .calendar table th,
+.calendar-container > .calendar table td {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.calendar-container > .calendar table th {
+	border-bottom: 1px solid #fec524;
+}
+
+/* ######################################### bootstrap ######################################### */
 
 button,
 input,

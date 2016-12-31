@@ -1,7 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Template} from 'meteor/templating';
-import {Blaze} from 'meteor/blaze';
 
 class AgentTermsAndConditions extends React.Component {
 	handleAccept(event) {

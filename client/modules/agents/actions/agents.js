@@ -17,5 +17,45 @@ export default {
     });
 
     FlowRouter.go('/agent/home');
+  },
+  saveAgentSchedule({Meteor}, scheduleDates) {
+	  
+	if (scheduleDates.length === 0) {
+		alert('Saved successfully');
+		return;
+	}
+	
+	let scheduleDatesToSave = [];
+
+	for (var i = 0; i < scheduleDates.length; i++) {
+		if (scheduleDates[i].RowState === "Added" || scheduleDates[i].RowState === "Modified") {
+			var dateParts = scheduleDates[i].Date.split('/');
+			
+			//new Date - month is 0 indexed, hence -1
+			var date = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]); 
+
+			scheduleDatesToSave.push({
+				Date : date,
+				Availability : scheduleDates[i].Availability,
+				RowState : scheduleDates[i].RowState
+			});
+		}
+	}
+	
+	if (scheduleDatesToSave.length === 0) {
+		alert('Saved successfully');
+		return;
+	}
+	  
+    Meteor.call('agents.schedule.save', scheduleDatesToSave, Meteor.userId(), (err) => {
+      if (err) {
+		console.log("error");
+        //return LocalState.set('SAVING_ERROR', err.message);
+      }
+	  else {
+		alert('Saved successfully');
+	  }
+    });
+
   }
 };

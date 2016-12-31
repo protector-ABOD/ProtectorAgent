@@ -14,7 +14,6 @@ const Layout = ({content = () => null }) => (
 
 		</div>
 	  <div className="main-container">
-		
 		{content()}
 	  </div>
     </div>

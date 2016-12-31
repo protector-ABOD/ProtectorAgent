@@ -74,6 +74,37 @@ export default function () {
       };
 		
       Agents.insert(agentToInsert);
+    },
+	'agents.schedule.save'(dates, userId) {
+		check( userId, String );
+		check( dates, [{
+		  Date : Date,
+		  Availability : String,
+		  RowState : String
+		}]); 
+		
+		const selector = {UserID: userId, StatusID : 1};
+		const agent = Agents.findOne(selector);
+		
+		for (var i = 0; i < dates.length; i++) {
+			if (dates[i].RowState === "Added") {
+				Agents.update({ _id: agent._id }, {
+					$push: { 
+						Schedule: {
+							Date: dates[i].Date,
+							Availability : dates[i].Availability
+						} 
+					}
+				});
+			}
+			else {
+				Agents.update({ _id: agent._id, "Schedule.Date" : dates[i].Date }, {
+					$set: { 
+						"Schedule.$.Availability" : dates[i].Availability 
+						}
+				});
+			}
+		}
     }
   });
 }

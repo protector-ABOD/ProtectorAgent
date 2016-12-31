@@ -1,7 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Template} from 'meteor/templating';
-import {Blaze} from 'meteor/blaze';
 
 class AgentApplication extends React.Component {
 	constructor(props, context) {
@@ -36,7 +34,7 @@ class AgentApplication extends React.Component {
 		  optionYear.push(<option key={i} value={i}>{i}</option>);
 		}
 		return (
-			<div className="content-container agent-application">
+			<div className="agent-application">
 				<form onSubmit={this.createAgent.bind(this)}>
 					<label>Personal Information</label>
 					<br />
@@ -466,7 +464,6 @@ class AgentApplication extends React.Component {
 			"languageOthers" : languageOthers.value
 		};*/
 		agent["skills"] = this.state.skills;
-		console.log(agent);
 		createAgent(agent);
     }
 }
