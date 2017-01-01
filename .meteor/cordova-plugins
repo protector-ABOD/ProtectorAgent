@@ -1,1 +1,4 @@
-com.phonegap.plugins.facebookconnect@https://github.com/Wizcorp/phonegap-facebook-plugin/tarball/a94872583b0c6045c56d3ccb9aa2171db305db6a
+com.phonegap.plugins.facebookconnect@https://github.com/rohanray/phonegap-facebook-plugin.git#0c857b089e02437bd3eb9c0696686491c0b9e9b9
+de.appplant.cordova.plugin.local-notification@0.8.4
+org.apache.cordova.dialogs@1.2.1
+org.apache.cordova.vibration@2.1.1

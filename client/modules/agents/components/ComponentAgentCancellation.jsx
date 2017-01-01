@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 class ComponentAgentCancellation extends React.Component {
 	render() {
@@ -11,7 +10,7 @@ class ComponentAgentCancellation extends React.Component {
 					<i className="fa fa-times-circle fa-lg vertical-align-middle">
 					</i>
 					<span className="pad-left-fixed-10 font-blue font-big font-bold vertical-align-middle">
-						{Value ? Value + "%" : "N/A"}
+						{Value ? Value + "%" : "0%"}
 					</span>
 				</div>
 				<div className="pad-top-bottom-fixed-5">

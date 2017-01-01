@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 class ComponentAgentAcceptance extends React.Component {
 	render() {
@@ -11,7 +10,7 @@ class ComponentAgentAcceptance extends React.Component {
 					<i className="fa fa-check-circle fa-lg vertical-align-middle">
 					</i>
 					<span className="pad-left-fixed-10 font-blue font-big font-bold vertical-align-middle">
-						{Value ? Value + "%" : "N/A"}
+						{Value ? Value + "%" : "100%"}
 					</span>
 				</div>
 				<div className="pad-top-bottom-fixed-5">

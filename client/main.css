@@ -49,9 +49,22 @@ p {
 	text-align: center;
 }
 
+.vertical-align-middle {
+	vertical-align: middle;
+}
+
+.float-right {
+	float:right;
+}
+
 .no-pad {
 	padding-left: 0px !important;
 	padding-right: 0px !important;
+}
+
+.pad-top-bottom-fixed-15 {
+	padding-top: 15px;
+	padding-bottom: 15px;
 }
 
 .pad-top-bottom-fixed-5 {
@@ -81,6 +94,11 @@ p {
 
 .pad-top-fixed-15 {
 	padding-top: 15px;
+}
+
+.margin-sides-neg-30 {
+	margin-left: -30px;
+	margin-right: -30px;
 }
 
 .btn-50 {
@@ -124,10 +142,6 @@ p {
 	padding-right:2px;
 }
 
-.vertical-align-middle {
-	vertical-align: middle;
-}
-
 .horizontal-line {
 	padding-left: 30px;
 	padding-right: 30px;
@@ -146,6 +160,9 @@ p {
 	padding-left: 15px;
 	padding-right: 15px;
 	padding-bottom: 15px;
+}
+.back-dark-green {
+	background-color: #0d553f;
 }
 
 /* ##################################    font colors and size     ################################## */

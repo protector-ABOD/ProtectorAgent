@@ -32,3 +32,5 @@ Tracker.autorun(function(){
 	//console.log('b');
   }
 });
+
+Push.Configure(Meteor.settings.public.push_notification.gcm);
