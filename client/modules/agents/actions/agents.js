@@ -56,6 +56,28 @@ export default {
 		alert('Saved successfully');
 	  }
     });
-
+  },
+  acceptRequest({Meteor}, request) {
+    Meteor.call('serviceRequest.accept', request._id, Meteor.userId(), (err) => {
+      if (err) {
+		console.log("error");
+        //return LocalState.set('SAVING_ERROR', err.message);
+      }
+	  else {
+		alert('Your have accepted the request.');
+	  }
+    });
+  },
+  rejectRequest({Meteor}, request) {
+    Meteor.call('serviceRequest.reject', request._id, Meteor.userId(), (err) => {
+      if (err) {
+		console.log("error");
+        //return LocalState.set('SAVING_ERROR', err.message);
+      }
+	  else {
+		alert('You have rejected the request');
+	  }
+    });
+	  
   }
 };

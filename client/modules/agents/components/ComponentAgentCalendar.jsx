@@ -1,38 +1,77 @@
 import React from 'react';
+import PopupModal from '/client/modules/common/components/PopupModal.jsx';
+
+function padLeft(nr, n, str){
+    return Array(n-String(nr).length+1).join(str||'0')+nr;
+}
+//or as a Number prototype method:
+Number.prototype.padLeft = function (n,str){
+    return Array(n-String(this).length+1).join(str||'0')+this;
+}
 
 function CalendarCell(props) {
 	
-	const scheduleDates = props.scheduleDates;
+	let isOccupied = false;
+
+	const acceptedDates = props.acceptedDates;
+	let occupiedDate = null;
 	let elementToRender = null;
 	
 	let cssClass = "";
-	
-	for (var i = 0; i < scheduleDates.length; i++) {
-		if (scheduleDates[i].Date === props.day.year + "/" + props.day.month + "/" + props.day.date) {
-			if (scheduleDates[i].Availability === "Available") {
-				cssClass = "available-date";
-			}
-			else if (scheduleDates[i].Availability === "Not Available") {
-				cssClass = "not-available-date";
-			}
+	for (var i = 0; i < acceptedDates.length; i++) {
+		if (acceptedDates[i].Date === props.day.year + "/" + props.day.month + "/" + props.day.date) {
+			occupiedDate = acceptedDates[i];
+			cssClass = "occupied";
+			isOccupied = true;
 		}
 	}
 	
-	if (props.day.month == props.currentMonth + 1) {
-		elementToRender = 	<td className={cssClass} 
-								onMouseDown={() => props.onMouseDown()} 
-								onMouseEnter={() => props.onMouseEnter()}>
-									<span>{props.day.date}</span>
-							</td>
+	const scheduleDates = props.scheduleDates;
+
+	if (!isOccupied) {
+		for (var i = 0; i < scheduleDates.length; i++) {
+			if (scheduleDates[i].Date === props.day.year + "/" + props.day.month + "/" + props.day.date) {
+				if (scheduleDates[i].Availability === "Available") {
+					cssClass = "available-date";
+				}
+				else if (scheduleDates[i].Availability === "Not Available") {
+					cssClass = "not-available-date";
+				}
+			}
+		}
+		
+		if (props.day.month == props.currentMonth + 1) {
+			elementToRender = 	<td className={cssClass} 
+									onMouseDown={() => props.onMouseDown()} 
+									onMouseEnter={() => props.onMouseEnter()}>
+										<span>{props.day.date}</span>
+								</td>
+		}
+		else {
+			cssClass = cssClass + " color-fade";
+			
+			elementToRender = 	<td className={cssClass} 
+									onMouseDown={() => props.onMouseDown()} 
+									onMouseEnter={() => props.onMouseEnter()}>
+										<span>{props.day.date}</span>
+								</td>
+		}
 	}
 	else {
-		cssClass = cssClass + " color-fade";
-		
-		elementToRender = 	<td className={cssClass} 
-								onMouseDown={() => props.onMouseDown()} 
-								onMouseEnter={() => props.onMouseEnter()}>
+		if (props.day.month == props.currentMonth + 1) {
+			elementToRender = 	<td className={cssClass} 
+									onClick={() => props.onOccupiedClick(occupiedDate)}>
 									<span>{props.day.date}</span>
-							</td>
+								</td>
+		}
+		else {
+			cssClass = cssClass + " color-fade";
+			
+			elementToRender = 	<td className={cssClass} 
+									onClick={() => props.onOccupiedClick(occupiedDate)}>
+									<span>{props.day.date}</span>
+								</td>
+		}
 	}
 	
 	return elementToRender;
@@ -47,8 +86,10 @@ function CalendarRow(props) {
 					day={day} 
 					currentMonth={props.currentMonth} 
 					scheduleDates={props.scheduleDates} 
+					acceptedDates={props.acceptedDates} 
 					onMouseDown={() => props.onMouseDown(day)} 
-					onMouseEnter={() => props.onMouseEnter(day)} />
+					onMouseEnter={() => props.onMouseEnter(day)} 
+					onOccupiedClick={(occupiedDate) => props.onOccupiedClick(occupiedDate)} />
 			)}
 		</tr>
 	);
@@ -62,7 +103,9 @@ class ComponentAgentCalendar extends React.Component {
 		this.state = {
 			currentMonth: new Date().getMonth(), //jan = 0, feb = 1, ... , dec = 11
 			currentYear: new Date().getFullYear(),
-			scheduleDates : props.scheduleDates
+			scheduleDates : props.scheduleDates,
+			isModalOpen: false,
+			selectedOccupiedDate : null
 		};
 		
 		this.documentMouseDownHandler = this.documentMouseDownHandler.bind(this);
@@ -71,6 +114,12 @@ class ComponentAgentCalendar extends React.Component {
 	componentDidMount() {
 		window.addEventListener('mousedown', this.documentMouseDownHandler, false);
 		window.addEventListener('mouseup', this.documentMouseUpHandler, false);
+	}
+	openModal(occupiedDate) {
+		this.setState({ isModalOpen: true, selectedOccupiedDate : occupiedDate });
+	}
+	closeModal() {
+		this.setState({ isModalOpen: false, selectedOccupiedDate : null });
 	}
 	prevMonth(event) {
 		if (event && event.preventDefault) {
@@ -211,6 +260,15 @@ class ComponentAgentCalendar extends React.Component {
 			this.setState({scheduleDates : dates});
 		}
 	}
+	onOccupiedClick(occupiedDate) {
+		if (event && event.preventDefault) {
+		  event.preventDefault();
+		}
+		
+		if (!this.state.isModalOpen) {
+			this.openModal(occupiedDate);
+		}
+	}
 	documentMouseDownHandler(event) {
 		this.isMouseDown = true;
 	}
@@ -286,6 +344,26 @@ class ComponentAgentCalendar extends React.Component {
 				scheduleDateRange.push(scheduleDates[i]);
 			}
 		}
+
+		let serviceRequestsAccepted = this.props.ServiceRequestsAccepted;
+		let serviceRequestsAcceptedRange = [];
+
+		for (var i = 0; i < serviceRequestsAccepted.length; i++) {
+			if (serviceRequestsAccepted[i].Date >= calendarDate[0][0].year + "/" + calendarDate[0][0].month + "/" + calendarDate[0][0].date
+				&& serviceRequestsAccepted[i].Date <= calendarDate[5][6].year + "/" + calendarDate[5][6].month + "/" + calendarDate[5][6].date) {
+				serviceRequestsAcceptedRange.push(serviceRequestsAccepted[i]);
+			}
+		}
+		
+		let selectedRequest;
+		let startDate;
+		let createdDate;
+
+		if (this.state.selectedOccupiedDate) {
+			selectedRequest = this.state.selectedOccupiedDate;
+			startDate = new Date(selectedRequest.Service_Request.Service_Start_Time);
+			createdDate = new Date(selectedRequest.Created_DateTime);
+		}
 		
 		return (
 			<div className="calendar-container">
@@ -337,13 +415,68 @@ class ComponentAgentCalendar extends React.Component {
 										week={week} 
 										currentMonth={this.state.currentMonth} 
 										scheduleDates={scheduleDateRange} 
+										acceptedDates={serviceRequestsAcceptedRange}
 										onMouseDown={(day) => this.handleMouseDown(day)} 
-										onMouseEnter={(day) => this.handleMouseEnter(day)}/>
+										onMouseEnter={(day) => this.handleMouseEnter(day)}
+										onOccupiedClick={(occupiedDate) => this.onOccupiedClick(occupiedDate)}/>
 								))}
 							</tbody>
 						</table>
 					</div>
 				</div>
+				<PopupModal 
+					mode="view"
+					isOpen={this.state.isModalOpen} 
+					onClose={() => this.closeModal()}>
+						{this.state.selectedOccupiedDate ?
+							<div>
+								<div className="row pad-btm-15">
+									<div className="col-xs-12">
+										{selectedRequest.User.profile.name}
+									</div>
+								</div>
+								<div className="row pad-btm-15">
+									<div className="col-xs-12">
+										{selectedRequest.Service_Request.Service_Type_Description}
+									</div>
+								</div>
+								<div className="row pad-btm-15">
+									<div className="col-xs-8">
+										{padLeft(startDate.getDate(), 2) 
+										 + "/" 
+										 + padLeft(startDate.getMonth() + 1, 2) 
+										 + "/" 
+										 + startDate.getFullYear()
+										 + " "
+										 + padLeft(startDate.getHours(), 2)
+										 + ":"
+										 + padLeft(startDate.getMinutes(), 2)
+										}
+									</div>
+									<div className="col-xs-4 align-right">
+										{selectedRequest.Service_Request.Service_Duration_Value} Hours
+									</div>
+								</div>
+								<div className="row pad-btm-15">
+									<div className="col-xs-12">
+										{selectedRequest.Service_Request.Service_State_Description}
+									</div>
+								</div>
+								<div className="row pad-btm-15">
+									<div className="col-xs-12">
+										Remarks
+									</div>
+								</div>
+								<div className="row pad-btm-15">
+									<div className="col-xs-12">
+										<textarea className="form-control" value={selectedRequest.Service_Comment} readOnly={true} />
+									</div>
+								</div>
+							</div>
+							:
+							null
+						}
+				</PopupModal>
 			</div>
 		);
 	}

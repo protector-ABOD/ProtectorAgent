@@ -49,6 +49,14 @@ p {
 	text-align: center;
 }
 
+.align-left {
+	text-align: left;
+}
+
+.align-right {
+	text-align: right;
+}
+
 .vertical-align-middle {
 	vertical-align: middle;
 }
@@ -60,6 +68,11 @@ p {
 .no-pad {
 	padding-left: 0px !important;
 	padding-right: 0px !important;
+}
+
+.no-margin {
+	margin-left: 0px !important;
+	margin-right: 0px !important;
 }
 
 .pad-top-bottom-fixed-15 {
@@ -74,6 +87,18 @@ p {
 
 .pad-left-fixed-10 {
 	padding-left: 10px;
+}
+
+.pad-left-fixed-15 {
+	padding-left: 15px;
+}
+
+.pad-right-fixed-10 {
+	padding-right: 10px;
+}
+
+.pad-right-fixed-15 {
+	padding-right: 15px;
 }
 
 .pad-all-20 {
@@ -101,6 +126,10 @@ p {
 	margin-right: -30px;
 }
 
+.btn-49 {
+	width: 49%;
+}
+
 .btn-50 {
 	width: 50%;
 }
@@ -123,6 +152,11 @@ p {
 
 .color-fade {
 	color: #7f7353;
+}
+
+.occupied {
+	background-color: #ffcc66;
+	color: #000000;
 }
 
 .available-date {
@@ -165,6 +199,29 @@ p {
 	background-color: #0d553f;
 }
 
+.request-rows {
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+.table-service-request {
+	width: 100%;
+}
+
+.table-service-request td {
+	padding : 5px 15px;
+}
+
+.close-request {
+	position: relative;
+	top: 1px;
+	left: 10px;
+}
+
+.modal-footer.align-middle {
+	text-align: center;
+}
+
 /* ##################################    font colors and size     ################################## */
 
 .font-blue {
@@ -195,6 +252,23 @@ p {
 	.font-small {
 		font-size: 0.9em;
 	}
+}
+
+/* #########################################    popup     ######################################### */
+
+.modal.show-modal{
+	background-color: rgba(0, 0, 0, 0.5);
+    display: block;
+}
+
+.max-height-250 {
+	max-height: 300px;
+}
+
+.expand {
+	max-height: 200px;
+	overflow-x: hidden;
+	overflow-y: auto;
 }
 
 /* #########################################    login     ######################################### */
@@ -5476,4 +5550,128 @@ button.close {
 }
 .affix {
   position: fixed;
+}
+.modal-open {
+  overflow: hidden;
+}
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1050;
+  display: none;
+  overflow: hidden;
+  -webkit-overflow-scrolling: touch;
+  outline: 0;
+}
+.modal.fade .modal-dialog {
+  -webkit-transition: -webkit-transform .3s ease-out;
+       -o-transition:      -o-transform .3s ease-out;
+          transition:         transform .3s ease-out;
+  -webkit-transform: translate(0, -25%);
+      -ms-transform: translate(0, -25%);
+       -o-transform: translate(0, -25%);
+          transform: translate(0, -25%);
+}
+.modal.in .modal-dialog {
+  -webkit-transform: translate(0, 0);
+      -ms-transform: translate(0, 0);
+       -o-transform: translate(0, 0);
+          transform: translate(0, 0);
+}
+.modal-open .modal {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.modal-dialog {
+  position: relative;
+  width: auto;
+  margin: 10px;
+}
+.modal-content {
+  position: relative;
+  background-color: #09121B;
+  -webkit-background-clip: padding-box;
+          background-clip: padding-box;
+  border: 2px solid #fff;
+  border: 2px solid rgba(255, 255, 255, .5);
+  border-radius: 6px;
+  outline: 0;
+  /*
+  -webkit-box-shadow: 0 3px 9px rgba(255, 255, 255, .5);
+          box-shadow: 0 3px 9px rgba(255, 255, 255, .5);*/
+}
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1040;
+  background-color: #000;
+}
+.modal-backdrop.fade {
+  filter: alpha(opacity=0);
+  opacity: 0;
+}
+.modal-backdrop.in {
+  filter: alpha(opacity=50);
+  opacity: .5;
+}
+.modal-header {
+  padding: 15px;
+  border-bottom: 1px solid #e5e5e5;
+}
+.modal-header .close {
+  margin-top: -2px;
+}
+.modal-title {
+  margin: 0;
+  line-height: 1.42857143;
+}
+.modal-body {
+  position: relative;
+  padding: 15px;
+}
+.modal-footer {
+  padding: 15px;
+  text-align: right;
+  border-top: 1px solid #e5e5e5;
+}
+.modal-footer .btn + .btn {
+  margin-bottom: 0;
+  margin-left: 5px;
+}
+.modal-footer .btn-group .btn + .btn {
+  margin-left: -1px;
+}
+.modal-footer .btn-block + .btn-block {
+  margin-left: 0;
+}
+.modal-scrollbar-measure {
+  position: absolute;
+  top: -9999px;
+  width: 50px;
+  height: 50px;
+  overflow: scroll;
+}
+@media (min-width: 768px) {
+  .modal-dialog {
+    width: 600px;
+    margin: 30px auto;
+  }
+  .modal-content {
+    -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+  }
+  .modal-sm {
+    width: 300px;
+  }
+}
+@media (min-width: 992px) {
+  .modal-lg {
+    width: 900px;
+  }
 }
