@@ -18,7 +18,7 @@ export default function () {
 		return ServiceRequests.find(serviceRequestSelector);
 	}
 	else {
-		return null;
+		this.ready();
 	}
   });
   Meteor.publish('serviceRequests.accepted', function (userID) {
@@ -36,7 +36,7 @@ export default function () {
 		return ServiceRequests.find(serviceRequestSelector);
 	}
 	else {
-		return null;
+		this.ready();
 	}
   });
 }
