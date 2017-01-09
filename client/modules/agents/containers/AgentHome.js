@@ -8,7 +8,7 @@ export const composer = ({context}, onData) => {
   if (Meteor.subscribe('agents.single', Meteor.userId()).ready()
 		&& Meteor.subscribe('serviceRequests.pending', Meteor.userId()).ready() 
 		&& Meteor.subscribe('serviceRequests.accepted', Meteor.userId()).ready() 
-		&& Meteor.subscribe('users.byRequestedAgent', Meteor.userId()).ready() 
+		&& Meteor.subscribe('userProfile.byRequestedAgent', Meteor.userId()).ready() 
 		&& Meteor.subscribe('codeTables.country').ready()
 		&& Meteor.subscribe('codeTables.serviceType').ready()) {
 
@@ -73,7 +73,7 @@ export const composer = ({context}, onData) => {
 					doc.Service_Request.Service_State_Description = "";
 				}
 				
-				const user = Meteor.users.findOne({ _id: doc.User_ID });
+				const user = Collections.UserProfiles.findOne({ User_ID: doc.User_ID });
 				
 				if (user) {
 					doc.User = user;
@@ -115,7 +115,7 @@ export const composer = ({context}, onData) => {
 					doc.Service_Request.Service_State_Description = "";
 				}
 				
-				const user = Meteor.users.findOne({ _id: doc.User_ID });
+				const user = Collections.UserProfiles.findOne({ User_ID: doc.User_ID });
 				
 				if (user) {
 					doc.User = user;

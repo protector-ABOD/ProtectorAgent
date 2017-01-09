@@ -5,14 +5,6 @@ class AgentApplication extends React.Component {
 		super(props, context);
 
 		this.state = {
-			/*isBahasaMalaysiaSpoken: false,
-			isBahasaMalaysiaWritten: false,
-			isEnglishSpoken: false,
-			isEnglishWritten: false,
-			isChineseSpoken: false,
-			isChineseWritten: false,
-			isTamilSpoken: false,
-			isTamilWritten: false,*/
 			academicAttainment: "PMR or equivalent",
 			skills: []
 		};
@@ -97,36 +89,6 @@ class AgentApplication extends React.Component {
 						</div>
 					</div>
 					<br />
-					{/*<div className="form-group">
-						<div className="row">
-							<div className="col-xs-12">
-								<label htmlFor="address">Address</label>
-							</div>
-						</div>
-						<div className="row">
-							<div className="col-xs-12">
-								<input type="text" className="form-control" id="address" ref="address" placeholder="Address"/>
-							</div>
-						</div>
-						<br />
-						<div className="row">
-							<div className="col-xs-6">
-								<input type="text" className="form-control" id="addressCity" ref="addressCity" placeholder="City"/>
-							</div>
-							<div className="col-xs-6">
-								<input type="text" className="form-control" id="addressPostcode" ref="addressPostcode" placeholder="Postcode"/>
-							</div>
-						</div>
-						<br />
-						<div className="row">
-							<div className="col-xs-6">
-								<input type="text" className="form-control" id="addressState" ref="addressState" placeholder="State"/>
-							</div>
-							<div className="col-xs-6">
-								<input type="text" className="form-control" id="addressCountry" ref="addressCountry" placeholder="Country"/>
-							</div>
-						</div>
-					</div>*/}
 					<div className="form-group">
 						<div className="row">
 							<div className="col-xs-12">
@@ -174,22 +136,6 @@ class AgentApplication extends React.Component {
 						<label htmlFor="comment">Comment</label>
 						<textarea className="form-control" id="comment" ref="comment" />
 					</div>
-					{/*<br />
-					<label>Emergency Contact</label>
-					<br />
-					<br />
-					<div className="form-group">
-						<label htmlFor="emergencyContactFullName">Full Name</label>
-						<input type="text" className="form-control" id="emergencyContactFullName" ref="emergencyContactFullName" />
-					</div>
-					<div className="form-group">
-						<label htmlFor="emergencyContactMobileNumber">Mobile Number</label>
-						<input type="text" className="form-control" id="emergencyContactMobileNumber" ref="emergencyContactMobileNumber" placeholder="e.g. 0128888888" />
-					</div>
-					<div className="form-group">
-						<label htmlFor="emergencyContactRelationship">Relationship</label>
-						<input type="text" className="form-control" id="emergencyContactRelationship" ref="emergencyContactRelationship" placeholder="e.g. 0128888888" />
-					</div>*/}
 					<br />
 					<label>Personal Skills</label>
 					<br />
@@ -220,118 +166,7 @@ class AgentApplication extends React.Component {
 						   value="Master's Degree or Higher" 
 						   checked={this.state.academicAttainment === "Master's Degree or Higher"}
 						   onChange={this.handleRadioChange.bind(this)} /><span className="pad-radio-label">Master's Degree or Higher</span>
-				   {/*<br />
-					<br />
-					<br />
-					<div className="row">
-						<div className="col-xs-6">
-							<label>Language Proficiency</label>
-						</div>
-						<div className="col-xs-3 align-middle">
-							<label>Spoken</label>
-						</div>
-						<div className="col-xs-3 align-middle">
-							<label>Written</label>
-						</div>
-					</div>
-					<br />
-					<div className="row">
-						<div className="col-xs-6">
-							<span>Bahasa Malaysia</span>
-						</div>
-						<div className="col-xs-3 align-middle">
-							<input type="checkbox" 
-								   ref="isBahasaMalaysiaSpoken"
-								   name="isBahasaMalaysiaSpoken"
-								   checked={this.state.isBahasaMalaysiaSpoken}
-								   onClick={this.handleCheckboxChange.bind(this)}
-								   />
-						</div>
-						<div className="col-xs-3 align-middle">
-							<input type="checkbox" 
-								   ref="isBahasaMalaysiaWritten"
-								   name="isBahasaMalaysiaWritten"
-								   checked={this.state.isBahasaMalaysiaWritten}
-								   onClick={this.handleCheckboxChange.bind(this)}
-								   />
-						</div>
-					</div>
-					<br />
-					<div className="row">
-						<div className="col-xs-6">
-							<span>English</span>
-						</div>
-						<div className="col-xs-3 align-middle">
-							<input type="checkbox" 
-								   ref="isEnglishSpoken"
-								   name="isEnglishSpoken"
-								   checked={this.state.isEnglishSpoken}
-								   onClick={this.handleCheckboxChange.bind(this)}
-								   />
-						</div>
-						<div className="col-xs-3 align-middle">
-							<input type="checkbox" 
-								   ref="isEnglishWritten"
-								   name="isEnglishWritten"
-								   checked={this.state.isEnglishWritten}
-								   onClick={this.handleCheckboxChange.bind(this)}
-								   />
-						</div>
-					</div>
-					<br />
-					<div className="row">
-						<div className="col-xs-6">
-							<span>Mandarin and dialect</span>
-						</div>
-						<div className="col-xs-3 align-middle">
-							<input type="checkbox" 
-								   ref="isChineseSpoken"
-								   name="isChineseSpoken"
-								   checked={this.state.isChineseSpoken}
-								   onClick={this.handleCheckboxChange.bind(this)}
-								   />
-						</div>
-						<div className="col-xs-3 align-middle">
-							<input type="checkbox" 
-								   ref="isChineseWritten"
-								   name="isChineseWritten"
-								   checked={this.state.isChineseWritten}
-								   onClick={this.handleCheckboxChange.bind(this)}
-								   />
-						</div>
-					</div>
-					<br />
-					<div className="row">
-						<div className="col-xs-6">
-							<span>Tamil</span>
-						</div>
-						<div className="col-xs-3 align-middle">
-							<input type="checkbox" 
-								   ref="isTamilSpoken"
-								   name="isTamilSpoken"
-								   checked={this.state.isTamilSpoken}
-								   onClick={this.handleCheckboxChange.bind(this)}
-								   />
-						</div>
-						<div className="col-xs-3 align-middle">
-							<input type="checkbox" 
-								   ref="isTamilWritten"
-								   name="isTamilWritten"
-								   checked={this.state.isTamilWritten}
-								   onClick={this.handleCheckboxChange.bind(this)}
-								   />
-						</div>
-					</div>
-					<br />
-					<div className="form-group">
-						<div className="col-xs-2 no-pad">
-							<span>Others</span>
-						</div>
-						<div className="col-xs-10 no-pad">
-							<input type="text" className="form-control" id="languageOthers" ref="languageOthers" placeholder="e.g. French, Japanese" />
-						</div>
-					</div>*/}
-					<br />
+				    <br />
 					<br />
 					<br />
 					<label>Protection Skills</label>
@@ -421,9 +256,7 @@ class AgentApplication extends React.Component {
 		
 		const {createAgent} = this.props;
 		const {fullName, email, mobileNumber, nricLeft, nricMiddle, nricRight, gender, race, 
-			   /*address, addressCity, addressPostcode, addressState, addressCountry,*/ dateOfBirthDate,
-			   dateOfBirthMonth, dateOfBirthYear, weight, height, comment/*emergencyContactFullName, 
-			   emergencyContactMobileNumber, emergencyContactRelationship, languageOthers*/} = this.refs;
+			   dateOfBirthDate, dateOfBirthMonth, dateOfBirthYear, weight, height, comment} = this.refs;
 		
 		var agent = {};
 		agent["fullName"] = fullName.value;
@@ -434,34 +267,13 @@ class AgentApplication extends React.Component {
 		agent["nricRight"] = nricRight.value;
 		agent["gender"] = gender.value;
 		agent["race"] = race.value;
-		/*agent["address"] = address.value;
-		agent["addressCity"] = addressCity.value;
-		agent["addressPostcode"] = addressPostcode.value;
-		agent["addressState"] = addressState.value;
-		agent["addressCountry"] = addressCountry.value;*/
-		agent["dateOfBirthDate"] = dateOfBirthDate.value;
-		agent["dateOfBirthMonth"] = dateOfBirthMonth.value;
-		agent["dateOfBirthYear"] = dateOfBirthYear.value;
-		agent["weight"] = weight.value;
-		agent["height"] = height.value;
+		agent["dateOfBirthDate"] = parseInt(dateOfBirthDate.value);
+		agent["dateOfBirthMonth"] = parseInt(dateOfBirthMonth.value);
+		agent["dateOfBirthYear"] = parseInt(dateOfBirthYear.value);
+		agent["weight"] = parseFloat(weight.value);
+		agent["height"] = parseFloat(height.value);
 		agent["comment"] = comment.value;
-		/*agent["emergencyContact"] = [{
-			"emergencyContactFullName" : emergencyContactFullName.value,
-			"emergencyContactMobileNumber" : emergencyContactMobileNumber.value,
-			"emergencyContactRelationship" : emergencyContactRelationship.value
-		}];*/
 		agent["academicAttainment"] = this.state.academicAttainment;
-		/*agent["languageProficiency"] = {
-			"bahasaMalaysiaSpoken" : this.state.isBahasaMalaysiaSpoken,
-			"bahasaMalaysiaWritten" : this.state.isBahasaMalaysiaWritten,
-			"englishSpoken" : this.state.isEnglishSpoken,
-			"englishWritten" : this.state.isEnglishWritten,
-			"chineseSpoken" : this.state.isChineseSpoken,
-			"chineseWritten" : this.state.isChineseWritten,
-			"tamilSpoken" : this.state.isTamilSpoken,
-			"tamilWritten" : this.state.isTamilWritten,
-			"languageOthers" : languageOthers.value
-		};*/
 		agent["skills"] = this.state.skills;
 		createAgent(agent);
     }

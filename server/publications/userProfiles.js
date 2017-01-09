@@ -1,19 +1,28 @@
-import {Agents, ServiceRequests} from '/lib/collections';
+import {Agents, ServiceRequests, UserProfiles} from '/lib/collections';
 import {Meteor} from 'meteor/meteor';
 import {check} from 'meteor/check';
 
 export default function () {
-  Meteor.publish('users.byRequestedAgent', function (userID) {
-    check(userID, String);
+  //find user profile that requested for the services of Agent
+  //01. Get Agent by agent's user id
+  //02. Get ServiceRequest by Agent._id
+  //03. Get UserProfile by ServiceRequest.User_ID
+  Meteor.publish('userProfile.byRequestedAgent', function (userID) {
+	//validation
+	check(userID, String);
+
+	//get agent
     const agentSelector = {UserID: userID};
 	const agent = Agents.findOne(agentSelector);
 
 	if (agent) {
+		//get ServiceRequest
 		const serviceRequestSelector = {Agent_ID : agent._id, Active_Status : 1};
 		const serviceRequests = ServiceRequests.find(serviceRequestSelector, {fields : {User_ID : 1} }).map(function(item){ return item.User_ID; });
 		
 		if (serviceRequests) {
-			const users = Meteor.users.find({ _id: { $in : serviceRequests } }, {fields : { profile : 1}});
+			//get UserProfile
+			const users = UserProfiles.find({ User_ID: { $in : serviceRequests } });
 			return users;
 		}
 		else {

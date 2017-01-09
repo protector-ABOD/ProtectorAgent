@@ -2,7 +2,7 @@
   "name": "ProtectorAgent",
   "private": true,
   "scripts": {
-    "startdev": "meteor --settings private/settings-development.json",
+    "startdev": "meteor --settings private/settings-development.json --port 4000",
     "startprd": "meteor --settings private/settings-production.json",
     "lint": "eslint ./lib ./client ./server --ext .js --ext .jsx",
     "lintfix": "npm run lint -- --fix",

@@ -3,6 +3,7 @@ import {Meteor} from 'meteor/meteor';
 import {check} from 'meteor/check';
 
 export default function () {
+  //get all pending service requests
   Meteor.publish('serviceRequests.pending', function (userID) {
     check(userID, String);
     const agentSelector = {UserID: userID};
@@ -21,6 +22,7 @@ export default function () {
 		this.ready();
 	}
   });
+  //get all accepted service requests
   Meteor.publish('serviceRequests.accepted', function (userID) {
     check(userID, String);
     const agentSelector = {UserID: userID};

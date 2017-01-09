@@ -3,6 +3,7 @@ import {Meteor} from 'meteor/meteor';
 import {check} from 'meteor/check';
 
 export default function () {
+  //get list of skills
   Meteor.publish('skills.list', function () {
     const selector = { Status_ID : 1};
     const options = {

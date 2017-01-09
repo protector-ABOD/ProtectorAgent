@@ -193,7 +193,12 @@ class ComponentAgentRequests extends React.Component {
 							<div>
 								<div className="row pad-btm-15">
 									<div className="col-xs-12">
-										{selectedRequest.User.profile.name}
+										{selectedRequest.User.Full_Name}
+									</div>
+								</div>
+								<div className="row pad-btm-15">
+									<div className="col-xs-12">
+										{selectedRequest.User.Gender}
 									</div>
 								</div>
 								<div className="row pad-btm-15">

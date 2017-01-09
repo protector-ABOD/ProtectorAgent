@@ -1,34 +1,20 @@
-//configureFacebook = function(config) {
-    //// first, remove configuration entry in case service is already configured
-    //ServiceConfiguration.configurations.remove({
-        //service: "facebook"
-    //});
-
-   //ServiceConfiguration.configurations.insert({
-        //service: "facebook",
-        //appId: config.clientId,
-        //secret: config.secret
-    //});
-//};
-
 export default function () {
+	//enable CORS
 	WebApp.rawConnectHandlers.use(function(req, res, next) {
-	  res.setHeader("Access-Control-Allow-Origin", "*");
-	  return next();
+	    res.setHeader("Access-Control-Allow-Origin", "*");
+	    return next();
 	});
 
-	//var facebookConfig = Meteor.settings.facebook;
-	//if(facebookConfig) {
-	//configureFacebook(facebookConfig);
-	//}
-
+	//configure raix push - server side
 	Push.Configure(Meteor.settings.server.push_notification);
 	
-	//TODO: change who can send notification
 	Push.allow({
 		send: function(userId, notification) {
-		  // Allow all users to send to everybody - For test only!
-		  return true;
+		  // Change to true or add logical checking 
+		  // to enable client side code to send push notification
+		  // This might be dangerous because it will
+		  // enable user to send push notification from browser console
+		  return false;
 		}
 	});
 }
