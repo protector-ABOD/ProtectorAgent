@@ -1,5 +1,5 @@
 import React from 'react';
-import PopupModal from '/client/modules/common/components/PopupModal.jsx';
+import PopupServiceRequest from './PopupServiceRequest.jsx';
 
 function padLeft(nr, n, str){
     return Array(n-String(nr).length+1).join(str||'0')+nr;
@@ -184,12 +184,12 @@ class ComponentAgentRequests extends React.Component {
 						null
 					}
 				</div>
-				<PopupModal 
-					mode="edit"
+				<PopupServiceRequest 
+					serviceRequest={selectedRequest ? selectedRequest : null}
 					isOpen={this.state.isModalOpen} 
-					onSubmit={() => this.acceptRequest()}
-					onReject={() => this.rejectRequest()}>
-						{this.state.selectedRequestIndex >= 0 ?
+					onAcceptRequest={() => this.acceptRequest()}
+					onRejectRequest={() => this.rejectRequest()}>
+						{selectedRequest ?
 							<div>
 								<div className="row pad-btm-15">
 									<div className="col-xs-12">
@@ -242,7 +242,7 @@ class ComponentAgentRequests extends React.Component {
 							:
 							null
 						}
-				</PopupModal>
+				</PopupServiceRequest>
 			</div>
 		);
 	}

@@ -57,6 +57,17 @@ export default {
 	  }
     });
   },
+  completeRequest({Meteor}, request) {
+    Meteor.call('serviceRequest.complete', request, Meteor.userId(), (err) => {
+      if (err) {
+		console.log("error");
+        //return LocalState.set('SAVING_ERROR', err.message);
+      }
+	  else {
+		alert('Request has been completed.');
+	  }
+    });
+  },
   acceptRequest({Meteor}, request) {
     Meteor.call('serviceRequest.accept', request._id, Meteor.userId(), (err) => {
       if (err) {

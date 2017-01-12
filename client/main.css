@@ -222,6 +222,11 @@ p {
 	text-align: center;
 }
 
+.rating-star {
+	display: inline-block;
+	padding-right: 5px;
+}
+
 /* ##################################    font colors and size     ################################## */
 
 .font-blue {
@@ -334,6 +339,21 @@ p.login-copyright-text {
 	color: #555555;
 	border-radius: 4px;
 }
+
+/* ###################################### agent job history ####################################### */
+
+.agent-job-history {
+	padding-top: 80px;
+}
+
+.font-light-green {
+	color: #00b294;
+}
+
+.font-light-blue {
+	color: #3dd4e6;
+}
+
 /* ######################################### profile page ######################################### */
 
 #profile-line {
@@ -384,7 +404,7 @@ p.login-copyright-text {
 }
 
 #profile_nav_img3 {
-	margin-left:30px;
+	margin-left:-20px;
 }
 
 

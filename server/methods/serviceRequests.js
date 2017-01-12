@@ -4,13 +4,32 @@ import {check} from 'meteor/check';
 
 export default function () {
   Meteor.methods({
+	'serviceRequest.complete'(request, userId) {
+		//validation
+		check( request, {
+			_id : Meteor.Collection.ObjectID,
+			Comment_By_Agent : String,
+			Rating_By_Agent : Number
+		});
+		check( userId, String );
+
+		//update db
+		ServiceRequests.update(request._id, { 
+			$set: { 
+				Comment_By_Agent : request.Comment_By_Agent,
+				Rating_By_Agent : request.Rating_By_Agent,
+				Service_Request_Status : "Completed",
+				Last_Edited_By : userId
+			} 
+		});
+    },
 	'serviceRequest.accept'(_id, userId) {
 		//validation
 		check( _id, Meteor.Collection.ObjectID );
 		check( userId, String );
 
 		//update db
-		ServiceRequests.update(_id, { $set: { Service_Request_Status : "Accepted" } });
+		ServiceRequests.update(_id, { $set: { Service_Request_Status : "Accepted", Last_Edited_By : userId } });
 		
 		//find service request
 		const serviceRequest = ServiceRequests.findOne({ _id : _id});
@@ -38,7 +57,7 @@ export default function () {
 		check( userId, String );
 
 		//update db
-		ServiceRequests.update(_id, { $set: { Service_Request_Status : "Rejected" } });
+		ServiceRequests.update(_id, { $set: { Service_Request_Status : "Rejected", Last_Edited_By : userId } });
 		
 		//find service request
 		const serviceRequest = ServiceRequests.findOne({ _id : _id});

@@ -11,6 +11,10 @@ class AgentHome extends React.Component {
 		const {saveAgentSchedule} = this.props;
 		saveAgentSchedule(scheduleDates);
 	}
+	completeRequest(request) {
+		const {completeRequest} = this.props;
+		completeRequest(request);
+	}
 	acceptRequest(request) {
 		const {acceptRequest} = this.props;
 		acceptRequest(request);
@@ -27,8 +31,9 @@ class AgentHome extends React.Component {
 				<div className="row">
 					<div className="col-xs-12">
 						<ComponentAgentCalendar 
-							onSave={(dates) => this.saveSchedule(dates)} 
-							scheduleDates={agents ? agents.Schedule : []} 
+							OnSave={(dates) => this.saveSchedule(dates)} 
+							OnCompleteRequest={(request) => this.completeRequest(request)} 
+							ScheduleDates={agents ? agents.Schedule : []} 
 							ServiceRequestsAccepted={serviceRequestsAccepted ? serviceRequestsAccepted : []}/>
 					</div>
 				</div>

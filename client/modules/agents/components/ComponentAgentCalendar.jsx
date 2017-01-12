@@ -1,5 +1,5 @@
 import React from 'react';
-import PopupModal from '/client/modules/common/components/PopupModal.jsx';
+import PopupServiceRequest from './PopupServiceRequest.jsx';
 
 function padLeft(nr, n, str){
     return Array(n-String(nr).length+1).join(str||'0')+nr;
@@ -14,13 +14,13 @@ function CalendarCell(props) {
 	let isOccupied = false;
 
 	const acceptedDates = props.acceptedDates;
-	let occupiedDate = null;
+	let serviceRequest = null;
 	let elementToRender = null;
 	
 	let cssClass = "";
 	for (var i = 0; i < acceptedDates.length; i++) {
 		if (acceptedDates[i].Date === props.day.year + "/" + props.day.month + "/" + props.day.date) {
-			occupiedDate = acceptedDates[i];
+			serviceRequest = acceptedDates[i];
 			cssClass = "occupied";
 			isOccupied = true;
 		}
@@ -60,7 +60,7 @@ function CalendarCell(props) {
 	else {
 		if (props.day.month == props.currentMonth + 1) {
 			elementToRender = 	<td className={cssClass} 
-									onClick={() => props.onOccupiedClick(occupiedDate)}>
+									onClick={() => props.onOccupiedClick(serviceRequest)}>
 									<span>{props.day.date}</span>
 								</td>
 		}
@@ -68,7 +68,7 @@ function CalendarCell(props) {
 			cssClass = cssClass + " color-fade";
 			
 			elementToRender = 	<td className={cssClass} 
-									onClick={() => props.onOccupiedClick(occupiedDate)}>
+									onClick={() => props.onOccupiedClick(serviceRequest)}>
 									<span>{props.day.date}</span>
 								</td>
 		}
@@ -89,7 +89,7 @@ function CalendarRow(props) {
 					acceptedDates={props.acceptedDates} 
 					onMouseDown={() => props.onMouseDown(day)} 
 					onMouseEnter={() => props.onMouseEnter(day)} 
-					onOccupiedClick={(occupiedDate) => props.onOccupiedClick(occupiedDate)} />
+					onOccupiedClick={(serviceRequest) => props.onOccupiedClick(serviceRequest)} />
 			)}
 		</tr>
 	);
@@ -103,9 +103,10 @@ class ComponentAgentCalendar extends React.Component {
 		this.state = {
 			currentMonth: new Date().getMonth(), //jan = 0, feb = 1, ... , dec = 11
 			currentYear: new Date().getFullYear(),
-			scheduleDates : props.scheduleDates,
+			scheduleDates : (props.ScheduleDates ? props.ScheduleDates : []),
 			isModalOpen: false,
-			selectedOccupiedDate : null
+			selectedRequest : null,
+			rating : 5
 		};
 		
 		this.documentMouseDownHandler = this.documentMouseDownHandler.bind(this);
@@ -115,11 +116,34 @@ class ComponentAgentCalendar extends React.Component {
 		window.addEventListener('mousedown', this.documentMouseDownHandler, false);
 		window.addEventListener('mouseup', this.documentMouseUpHandler, false);
 	}
-	openModal(occupiedDate) {
-		this.setState({ isModalOpen: true, selectedOccupiedDate : occupiedDate });
+	openModal(serviceRequest) {
+		this.setState({ isModalOpen: true, selectedRequest : serviceRequest });
 	}
 	closeModal() {
-		this.setState({ isModalOpen: false, selectedOccupiedDate : null });
+		this.setState({ isModalOpen: false, selectedRequest : null });
+	}
+	onRatingClick(event) {
+		if (event && event.preventDefault) {
+		  event.preventDefault();
+		}
+		
+		let rating = parseInt(event.target.getAttribute('data-value'));
+		this.setState({ rating: rating });
+	}
+	completeRequest() {
+		
+		const {comment} = this.refs;
+		const rating = this.state.rating;
+		
+		let serviceRequest = {};
+		
+		serviceRequest._id = this.state.selectedRequest._id;
+		serviceRequest.Comment_By_Agent = comment.value;
+		serviceRequest.Rating_By_Agent = rating;
+		
+		this.props.OnCompleteRequest(serviceRequest);
+		
+		this.setState({ isModalOpen: false, selectedRequest: null, rating : 5 });
 	}
 	prevMonth(event) {
 		if (event && event.preventDefault) {
@@ -153,18 +177,20 @@ class ComponentAgentCalendar extends React.Component {
 		}
 		
 		const scheduleDates = this.state.scheduleDates;
-		this.props.onSave(scheduleDates);
+		this.props.OnSave(scheduleDates);
 	}
 	handleMouseDown(day) {
 		let dates = this.state.scheduleDates;
 		let selectedDate = null;
 		let dateIndex = 0;
 		
-		for (var i = 0; i < dates.length; i++) {
-			if (dates[i].Date === day.year + "/" + day.month + "/" + day.date) {
-				selectedDate = dates[i];
-				dateIndex = i;
-				break;
+		if (dates) {
+			for (var i = 0; i < dates.length; i++) {
+				if (dates[i].Date === day.year + "/" + day.month + "/" + day.date) {
+					selectedDate = dates[i];
+					dateIndex = i;
+					break;
+				}
 			}
 		}
 		
@@ -225,11 +251,13 @@ class ComponentAgentCalendar extends React.Component {
 			let selectedDate = null;
 			let dateIndex = 0;
 			
-			for (var i = 0; i < dates.length; i++) {
-				if (dates[i].Date === day.year + "/" + day.month + "/" + day.date) {
-					selectedDate = dates[i];
-					dateIndex = i;
-					break;
+			if (dates) {
+				for (var i = 0; i < dates.length; i++) {
+					if (dates[i].Date === day.year + "/" + day.month + "/" + day.date) {
+						selectedDate = dates[i];
+						dateIndex = i;
+						break;
+					}
 				}
 			}
 			
@@ -260,13 +288,13 @@ class ComponentAgentCalendar extends React.Component {
 			this.setState({scheduleDates : dates});
 		}
 	}
-	onOccupiedClick(occupiedDate) {
+	onOccupiedClick(serviceRequest) {
 		if (event && event.preventDefault) {
 		  event.preventDefault();
 		}
 		
 		if (!this.state.isModalOpen) {
-			this.openModal(occupiedDate);
+			this.openModal(serviceRequest);
 		}
 	}
 	documentMouseDownHandler(event) {
@@ -338,20 +366,24 @@ class ComponentAgentCalendar extends React.Component {
 		let scheduleDates = this.state.scheduleDates;
 		let scheduleDateRange = [];
 		
-		for (var i = 0; i < scheduleDates.length; i++) {
-			if (scheduleDates[i].Date >= calendarDate[0][0].year + "/" + calendarDate[0][0].month + "/" + calendarDate[0][0].date
-				&& scheduleDates[i].Date <= calendarDate[5][6].year + "/" + calendarDate[5][6].month + "/" + calendarDate[5][6].date) {
-				scheduleDateRange.push(scheduleDates[i]);
+		if (scheduleDates) {
+			for (var i = 0; i < scheduleDates.length; i++) {
+				if (scheduleDates[i].Date >= calendarDate[0][0].year + "/" + calendarDate[0][0].month + "/" + calendarDate[0][0].date
+					&& scheduleDates[i].Date <= calendarDate[5][6].year + "/" + calendarDate[5][6].month + "/" + calendarDate[5][6].date) {
+					scheduleDateRange.push(scheduleDates[i]);
+				}
 			}
 		}
 
 		let serviceRequestsAccepted = this.props.ServiceRequestsAccepted;
 		let serviceRequestsAcceptedRange = [];
 
-		for (var i = 0; i < serviceRequestsAccepted.length; i++) {
-			if (serviceRequestsAccepted[i].Date >= calendarDate[0][0].year + "/" + calendarDate[0][0].month + "/" + calendarDate[0][0].date
-				&& serviceRequestsAccepted[i].Date <= calendarDate[5][6].year + "/" + calendarDate[5][6].month + "/" + calendarDate[5][6].date) {
-				serviceRequestsAcceptedRange.push(serviceRequestsAccepted[i]);
+		if (serviceRequestsAccepted) {
+			for (var i = 0; i < serviceRequestsAccepted.length; i++) {
+				if (serviceRequestsAccepted[i].Date >= calendarDate[0][0].year + "/" + calendarDate[0][0].month + "/" + calendarDate[0][0].date
+					&& serviceRequestsAccepted[i].Date <= calendarDate[5][6].year + "/" + calendarDate[5][6].month + "/" + calendarDate[5][6].date) {
+					serviceRequestsAcceptedRange.push(serviceRequestsAccepted[i]);
+				}
 			}
 		}
 		
@@ -359,8 +391,8 @@ class ComponentAgentCalendar extends React.Component {
 		let startDate;
 		let createdDate;
 
-		if (this.state.selectedOccupiedDate) {
-			selectedRequest = this.state.selectedOccupiedDate;
+		if (this.state.selectedRequest) {
+			selectedRequest = this.state.selectedRequest;
 			startDate = new Date(selectedRequest.Service_Request.Service_Start_Time);
 			createdDate = new Date(selectedRequest.Created_DateTime);
 		}
@@ -418,17 +450,18 @@ class ComponentAgentCalendar extends React.Component {
 										acceptedDates={serviceRequestsAcceptedRange}
 										onMouseDown={(day) => this.handleMouseDown(day)} 
 										onMouseEnter={(day) => this.handleMouseEnter(day)}
-										onOccupiedClick={(occupiedDate) => this.onOccupiedClick(occupiedDate)}/>
+										onOccupiedClick={(serviceRequest) => this.onOccupiedClick(serviceRequest)}/>
 								))}
 							</tbody>
 						</table>
 					</div>
 				</div>
-				<PopupModal 
-					mode="view"
+				<PopupServiceRequest 
+					serviceRequest={selectedRequest ? selectedRequest : null}
 					isOpen={this.state.isModalOpen} 
-					onClose={() => this.closeModal()}>
-						{this.state.selectedOccupiedDate ?
+					onClose={() => this.closeModal()}
+					onCompleteRequest={() => this.completeRequest()}>
+						{selectedRequest ?
 							<div>
 								<div className="row pad-btm-15">
 									<div className="col-xs-12">
@@ -440,6 +473,32 @@ class ComponentAgentCalendar extends React.Component {
 										{selectedRequest.User.Gender}
 									</div>
 								</div>
+								{this.state.selectedRequest.Service_Request_Status === "Accepted" 
+									?
+										<div>
+											<div className="row pad-btm-15">
+												<div className="col-xs-12">
+													<div className="rating-star">
+														<i className={this.state.rating > 0 ? "fa fa-star fw" : "fa fa-star-o fw"} data-value="1" onClick={(event) => this.onRatingClick(event)}></i>
+													</div>
+													<div className="rating-star">
+														<i className={this.state.rating > 1 ? "fa fa-star fw" : "fa fa-star-o fw"} data-value="2" onClick={(event) => this.onRatingClick(event)}></i>
+													</div>
+													<div className="rating-star">
+														<i className={this.state.rating > 2 ? "fa fa-star fw" : "fa fa-star-o fw"} data-value="3" onClick={(event) => this.onRatingClick(event)}></i>
+													</div>
+													<div className="rating-star">
+														<i className={this.state.rating > 3 ? "fa fa-star fw" : "fa fa-star-o fw"} data-value="4" onClick={(event) => this.onRatingClick(event)}></i>
+													</div>
+													<div className="rating-star">
+														<i className={this.state.rating > 4 ? "fa fa-star fw" : "fa fa-star-o fw"} data-value="5" onClick={(event) => this.onRatingClick(event)}></i>
+													</div>
+												</div>
+											</div>
+										</div>
+									:
+									null
+								}
 								<div className="row pad-btm-15">
 									<div className="col-xs-12">
 										{selectedRequest.Service_Request.Service_Type_Description}
@@ -472,16 +531,46 @@ class ComponentAgentCalendar extends React.Component {
 										Remarks
 									</div>
 								</div>
-								<div className="row pad-btm-15">
-									<div className="col-xs-12">
-										<textarea className="form-control" value={selectedRequest.Service_Comment} readOnly={true} />
-									</div>
-								</div>
+								
+								{this.state.selectedRequest.Service_Request_Status === "Accepted" 
+									?
+										<div>
+											<div className="row pad-btm-15">
+												<div className="col-xs-12">
+													Comment
+												</div>
+											</div>
+											<div className="row pad-btm-15">
+												<div className="col-xs-12">
+													<textarea ref="comment" className="form-control" />
+												</div>
+											</div>
+										</div>
+									:
+									null
+								}
+								{this.state.selectedRequest.Service_Request_Status === "Pending"
+									?
+										<div>
+											<div className="row pad-btm-15">
+												<div className="col-xs-12">
+													Remarks
+												</div>
+											</div>
+											<div className="row pad-btm-15">
+												<div className="col-xs-12">
+													<textarea className="form-control" value={selectedRequest.Service_Remark} readOnly={true} />
+												</div>
+											</div>
+										</div>
+									:
+									null
+								}
 							</div>
 							:
 							null
 						}
-				</PopupModal>
+				</PopupServiceRequest>
 			</div>
 		);
 	}

@@ -6,6 +6,7 @@ import LoginLayout from './components/LoginLayout.jsx';
 import Home from './components/Home.jsx';
 import Login from '../users/containers/Login.js';
 import AgentHome from '../agents/containers/AgentHome.js';
+import AgentJobHistory from '../agents/containers/AgentJobHistory.js';
 import AgentApplicationInfo from '../agents/containers/AgentApplicationInfo.js';
 import AgentTermsAndConditions from '../agents/containers/AgentTermsAndConditions.js';
 import AgentApplication from '../agents/containers/AgentApplication.js';
@@ -61,6 +62,15 @@ export default function (injectDeps, {FlowRouter}) {
     action() {
       mount(MainLayoutCtx, {
         content: () => (<AgentHome />)
+      });
+    }
+  });
+
+  privateRoutes.route('/agent/job-history', {
+    name: 'agent.jobHistory',
+    action() {
+      mount(MainLayoutCtx, {
+        content: () => (<AgentJobHistory />)
       });
     }
   });

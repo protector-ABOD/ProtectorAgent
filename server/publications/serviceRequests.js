@@ -4,7 +4,7 @@ import {check} from 'meteor/check';
 
 export default function () {
   //get all pending service requests
-  Meteor.publish('serviceRequests.pending', function (userID) {
+  Meteor.publish('serviceRequests.AcceptedAndPending', function (userID) {
     check(userID, String);
     const agentSelector = {UserID: userID};
 	const agent = Agents.findOne(agentSelector);
@@ -13,7 +13,7 @@ export default function () {
 		const serviceRequestSelector = {
 			Agent_ID: agent._id, 
 			Active_Status : 1, 
-			Service_Request_Status : 'Pending'
+			$or : [{Service_Request_Status : 'Pending'}, {Service_Request_Status : 'Accepted'}]
 		};
 
 		return ServiceRequests.find(serviceRequestSelector);
@@ -22,8 +22,8 @@ export default function () {
 		this.ready();
 	}
   });
-  //get all accepted service requests
-  Meteor.publish('serviceRequests.accepted', function (userID) {
+  //get all service requests by agent
+  Meteor.publish('serviceRequests.history', function (userID) {
     check(userID, String);
     const agentSelector = {UserID: userID};
 	const agent = Agents.findOne(agentSelector);
@@ -31,8 +31,8 @@ export default function () {
 	if (agent) {
 		const serviceRequestSelector = {
 			Agent_ID: agent._id, 
-			Active_Status : 1, 
-			Service_Request_Status : 'Accepted'
+			Active_Status : 1,
+			Service_Request_Status : { '$ne' : 'Rejected' }
 		};
 
 		return ServiceRequests.find(serviceRequestSelector);

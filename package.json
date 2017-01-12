@@ -2,7 +2,7 @@
   "name": "ProtectorAgent",
   "private": true,
   "scripts": {
-    "startdev": "meteor --settings private/settings-development.json --port 4000",
+    "startdev": "meteor --settings private/settings-development.json",
     "startprd": "meteor --settings private/settings-production.json",
     "lint": "eslint ./lib ./client ./server --ext .js --ext .jsx",
     "lintfix": "npm run lint -- --fix",
@@ -33,6 +33,7 @@
     "mantra-core": "^1.2.0",
     "react": "^15.4.0",
     "react-addons-css-transition-group": "^15.4.1",
+    "react-burger-menu": "^1.10.10",
     "react-dom": "^15.4.0",
     "react-mounter": "^1.0.0"
   }

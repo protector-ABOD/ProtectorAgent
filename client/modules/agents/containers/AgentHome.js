@@ -6,8 +6,7 @@ export const composer = ({context}, onData) => {
   const {Meteor, Collections} = context();
 
   if (Meteor.subscribe('agents.single', Meteor.userId()).ready()
-		&& Meteor.subscribe('serviceRequests.pending', Meteor.userId()).ready() 
-		&& Meteor.subscribe('serviceRequests.accepted', Meteor.userId()).ready() 
+		&& Meteor.subscribe('serviceRequests.AcceptedAndPending', Meteor.userId()).ready() 
 		&& Meteor.subscribe('userProfile.byRequestedAgent', Meteor.userId()).ready() 
 		&& Meteor.subscribe('codeTables.country').ready()
 		&& Meteor.subscribe('codeTables.serviceType').ready()) {
@@ -132,6 +131,7 @@ export const composer = ({context}, onData) => {
 
 export const depsMapper = (context, actions) => ({
   saveAgentSchedule: actions.agents.saveAgentSchedule,
+  completeRequest: actions.agents.completeRequest,
   acceptRequest: actions.agents.acceptRequest,
   rejectRequest: actions.agents.rejectRequest,
   context: () => context
