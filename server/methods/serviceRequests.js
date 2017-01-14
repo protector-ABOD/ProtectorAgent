@@ -14,13 +14,13 @@ export default function () {
 		check( userId, String );
 
 		//update db
-		ServiceRequests.update(request._id, { 
-			$set: { 
+		ServiceRequests.update(request._id, {
+			$set: {
 				Comment_By_Agent : request.Comment_By_Agent,
 				Rating_By_Agent : request.Rating_By_Agent,
 				Service_Request_Status : "Completed",
 				Last_Edited_By : userId
-			} 
+			}
 		});
     },
 	'serviceRequest.accept'(_id, userId) {
@@ -30,7 +30,7 @@ export default function () {
 
 		//update db
 		ServiceRequests.update(_id, { $set: { Service_Request_Status : "Accepted", Last_Edited_By : userId } });
-		
+
 		//find service request
 		const serviceRequest = ServiceRequests.findOne({ _id : _id});
 
@@ -38,7 +38,7 @@ export default function () {
 		const agent = Agents.findOne({_id : serviceRequest.Agent_ID});
 
 		//if agent is found, push notification to user
-		if (agent) {		
+		if (agent) {
 			Push.send({
 				from: 'push',
 				title: 'Request Accepted',
@@ -56,13 +56,18 @@ export default function () {
 		check( _id, Meteor.Collection.ObjectID );
 		check( userId, String );
 
-		//update db
-		ServiceRequests.update(_id, { $set: { Service_Request_Status : "Rejected", Last_Edited_By : userId } });
-		
-		//find service request
+    //find service request
 		const serviceRequest = ServiceRequests.findOne({ _id : _id});
 
-		//find agent based on agent_id in service request
+		//update db
+    ServiceRequests.update(_id, { $set: { Service_Request_Status : "Rejected", Last_Edited_By : userId } });
+
+    rejectAgentObject = {};
+    rejectAgentObject["Agent_ID"] = serviceRequest.Agent_ID;
+    rejectAgentObject["Rejected_DateTime"] = new Date();
+		ServiceRequests.update(_id, { $push: { Agents_Rejected : rejectAgentObject } });
+
+    //find agent based on agent_id in service request
 		const agent = Agents.findOne({_id : serviceRequest.Agent_ID});
 
 		//if agent is found, push notification to user
