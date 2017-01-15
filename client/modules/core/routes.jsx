@@ -6,6 +6,7 @@ import LoginLayout from './components/LoginLayout.jsx';
 import Home from './components/Home.jsx';
 import Login from '../users/containers/Login.js';
 import AgentHome from '../agents/containers/AgentHome.js';
+import AgentProfile from '../agents/containers/AgentProfile.js';
 import AgentJobHistory from '../agents/containers/AgentJobHistory.js';
 import AgentApplicationInfo from '../agents/containers/AgentApplicationInfo.js';
 import AgentTermsAndConditions from '../agents/containers/AgentTermsAndConditions.js';
@@ -62,6 +63,15 @@ export default function (injectDeps, {FlowRouter}) {
     action() {
       mount(MainLayoutCtx, {
         content: () => (<AgentHome />)
+      });
+    }
+  });
+
+  privateRoutes.route('/agent/profile', {
+    name: 'agent.profile',
+    action() {
+      mount(MainLayoutCtx, {
+        content: () => (<AgentProfile />)
       });
     }
   });

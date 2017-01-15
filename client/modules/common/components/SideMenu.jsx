@@ -23,7 +23,7 @@ class SideMenu extends React.Component {
 		if (agent) {
 			elementToRender = 	<Menu isOpen={ this.props.isOpen } customBurgerIcon={ false } customCrossIcon={ false }>
 									<div className="portrait-container">
-										<img className="menu-portrait" src="http://lorempixel.com/200/200" />
+										<img className="menu-portrait" src="/images/profile-image-placeholder.png" />
 										<span>{agent.FullName}</span>
 									</div>
 									<a id="home" className="menu-item" href="/" onClick={() => this.navigateTo("home")}><i className="fa fa-home fa-fw" /><span>Home</span></a>
