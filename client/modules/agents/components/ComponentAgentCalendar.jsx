@@ -180,6 +180,16 @@ class ComponentAgentCalendar extends React.Component {
 		this.props.OnSave(scheduleDates);
 	}
 	handleMouseDown(day) {
+		var today = new Date();
+		var dd = padLeft(today.getDate(), 2);
+		var mm = padLeft(today.getMonth()+1, 2);
+		var yyyy = today.getFullYear();
+		
+		if (yyyy + "/" + mm + "/" + dd > day.year + "/" + padLeft(day.month, 2) + "/" + padLeft(day.date, 2)) {
+			//disable editing if date selected is less than current date
+			return;
+		}
+		
 		let dates = this.state.scheduleDates;
 		let selectedDate = null;
 		let dateIndex = 0;
@@ -247,6 +257,16 @@ class ComponentAgentCalendar extends React.Component {
 	handleMouseEnter(day) {
 		if (this.isMouseDown) {
 			
+			var today = new Date();
+			var dd = padLeft(today.getDate(), 2);
+			var mm = padLeft(today.getMonth()+1, 2);
+			var yyyy = today.getFullYear();
+			
+			if (yyyy + "/" + mm + "/" + dd > day.year + "/" + padLeft(day.month, 2) + "/" + padLeft(day.date, 2)) {
+				//disable editing if date selected is less than current date
+				return;
+			}
+		
 			let dates = this.state.scheduleDates;
 			let selectedDate = null;
 			let dateIndex = 0;
