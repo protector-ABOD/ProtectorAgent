@@ -83,6 +83,114 @@ export default function () {
 				}
 			});
 		}
+    },
+	'serviceRequest.AgentRating'(userId) {
+		check( userId, String );
+		
+		const agentSelector = {UserID: userId};
+		const agent = Agents.findOne(agentSelector);
+		
+		if (agent) {		
+			const _id = new MongoInternals.NpmModule.ObjectID(agent._id._str);
+			const filter = {
+				Agent_ID : _id,
+				Service_Request_Status : "Completed",
+				Active_Status : 1
+			}
+			
+			const group = {
+				"_id" : {
+					Agent_ID : '$Agent_ID'
+				},
+				"averageRating": {
+					$avg: '$Rating_By_User'
+				}
+			};
+			
+			return ServiceRequests.aggregate(
+				{ 
+					$match:filter
+				},   
+				{   
+					$group : group
+				}  
+			);
+		}
+		else {
+			return [];
+		}
+    },
+	'serviceRequest.ServiceRequestAcceptedCount'(userId) {
+		check( userId, String );
+		
+		const agentSelector = {UserID: userId};
+		const agent = Agents.findOne(agentSelector);
+		
+		if (agent) {		
+			const _id = new MongoInternals.NpmModule.ObjectID(agent._id._str);
+			const filter = {
+				Agent_ID : _id,
+				$or : [{Service_Request_Status : "Accepted"}, {Service_Request_Status : "Completed"}],
+				Active_Status : 1
+			}
+			
+			const group = {
+				"_id" : {
+					Agent_ID : '$Agent_ID'
+				},
+				"acceptedCount": {
+					$sum: 1
+				}
+			};
+			
+			return ServiceRequests.aggregate(
+				{ 
+					$match:filter
+				},   
+				{   
+					$group : group
+				}  
+			);
+		}
+		else {
+			return [];
+		}
+    },
+	'serviceRequest.ServiceRequestTotalCount'(userId) {
+		check( userId, String );
+		
+		const agentSelector = {UserID: userId};
+		const agent = Agents.findOne(agentSelector);
+		
+		if (agent) {		
+			const _id = new MongoInternals.NpmModule.ObjectID(agent._id._str);
+			const filter = {
+				Agent_ID : _id,
+				$or : [{Service_Request_Status : "Accepted"}, {Service_Request_Status : "Completed"}, {Service_Request_Status : "Rejected"}],
+				Active_Status : 1
+			}
+			
+			const group = {
+				"_id" : {
+					Agent_ID : '$Agent_ID'
+				},
+				"totalCount": {
+					$sum: 1
+				}
+			};
+			
+			return ServiceRequests.aggregate(
+				{ 
+					$match:filter
+				},   
+				{   
+					$group : group
+				}  
+			);
+		}
+		else {
+			return [];
+		}
     }
   });
 }

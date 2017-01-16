@@ -89,6 +89,53 @@ export default {
 		alert('You have rejected the request');
 	  }
     });
-	  
+  },
+  getAgentRating({Meteor, LocalState}) {
+    Meteor.call('serviceRequest.AgentRating', Meteor.userId(), (err, response) => {
+      if (err) {
+		console.log("error");
+        //return LocalState.set('SAVING_ERROR', err.message);
+      }
+	  else {
+		  if (response.length > 0) {
+		      return LocalState.set('AgentRating', response[0].averageRating);
+		  }
+		  else {
+		      return LocalState.set('AgentRating', 5);
+		  }
+	  }
+    });
+  },
+  getServiceRequestAcceptedCount({Meteor, LocalState}) {
+    Meteor.call('serviceRequest.ServiceRequestAcceptedCount', Meteor.userId(), (err, response) => {
+      if (err) {
+		console.log("error");
+        //return LocalState.set('SAVING_ERROR', err.message);
+      }
+	  else {
+		  if (response.length > 0) {
+		      return LocalState.set('AcceptedCount', response[0].acceptedCount);
+		  }
+		  else {
+		      return LocalState.set('AcceptedCount', 0);
+		  }
+	  }
+    });
+  },
+  getServiceRequestTotalCount({Meteor, LocalState}) {
+    Meteor.call('serviceRequest.ServiceRequestTotalCount', Meteor.userId(), (err, response) => {
+      if (err) {
+		console.log("error");
+        //return LocalState.set('SAVING_ERROR', err.message);
+      }
+	  else {
+		  if (response.length > 0) {
+		      return LocalState.set('TotalCount', response[0].totalCount);
+		  }
+		  else {
+		      return LocalState.set('TotalCount', 0);
+		  }
+	  }
+    });
   }
 };

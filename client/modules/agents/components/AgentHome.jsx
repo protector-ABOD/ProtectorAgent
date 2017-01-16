@@ -24,7 +24,44 @@ class AgentHome extends React.Component {
 		rejectRequest(request);
 	}
 	render() {
-		const {agents, serviceRequestsAccepted, serviceRequestsPending} = this.props;
+		
+		const {agents, serviceRequestsAccepted, serviceRequestsPending, agentRating, acceptedCount, totalCount} = this.props;
+		
+		let noOfJobs = 0;
+		let sumOfJobPrice = 0;
+		
+		if (typeof serviceRequestsAccepted != 'undefined' && serviceRequestsAccepted != null ) {
+			noOfJobs = serviceRequestsAccepted.length;
+			
+			for (var i = 0; i < serviceRequestsAccepted.length; i++) {
+				sumOfJobPrice += parseInt(serviceRequestsAccepted[i].Service_Request.Service_Type_Total_Price);
+			}
+		}
+			
+		let acceptedPercentage;
+		let rejectedPercentage;
+		
+		if (typeof totalCount != 'undefined' && totalCount != null) {
+			
+			if (totalCount === 0) {
+				acceptedPercentage = 100;
+				rejectedPercentage = 0;
+			}
+			else {
+				if (!acceptedCount || acceptedCount === 0) {
+					acceptedPercentage = 0;
+					rejectedPercentage = 100;
+				}
+				else {
+					acceptedPercentage = acceptedCount / totalCount * 100;
+					rejectedPercentage = 100 - acceptedPercentage;
+				}
+			}
+		}
+		else {
+			acceptedPercentage = null;
+			rejectedPercentage = null;
+		}
 		
 		return (
 			<div className="agent-home pad-top-percent-10">
@@ -49,8 +86,8 @@ class AgentHome extends React.Component {
 					<div className="row pad-btm-15">
 						<div className="col-xs-12">
 							<ComponentAgentUpcomingJobs
-								NoOfUpcomingJobs="0"
-								SumofUpcomingJobsPayment="0" />
+								NoOfUpcomingJobs={noOfJobs}
+								SumofUpcomingJobsPayment={sumOfJobPrice} />
 						</div>
 					</div>
 					<div className="row">
@@ -62,15 +99,15 @@ class AgentHome extends React.Component {
 						<div className="col-xs-12">
 							<div className="col-xs-4 no-pad">
 								<ComponentAgentAcceptance
-									Value="100"/>
+									Value={acceptedPercentage}/>
 							</div>
 							<div className="col-xs-4 no-pad">
 								<ComponentAgentRating
-									Value="5.00"/>
+									Value={agentRating}/>
 							</div>
 							<div className="col-xs-4 no-pad">
 								<ComponentAgentCancellation
-									Value="0"/>
+									Value={rejectedPercentage}/>
 							</div>
 						</div>
 					</div>

@@ -2,8 +2,8 @@ import React from 'react';
 import AgentHome from '../components/AgentHome.jsx';
 import {useDeps, composeWithTracker, composeAll} from 'mantra-core';
 
-export const composer = ({context}, onData) => {
-  const {Meteor, Collections} = context();
+export const composer = ({context, getAgentRating, getServiceRequestAcceptedCount, getServiceRequestTotalCount}, onData) => {
+  const {Meteor, Collections, LocalState} = context();
 
   if (Meteor.subscribe('agents.single', Meteor.userId()).ready()
 		&& Meteor.subscribe('serviceRequests.AcceptedAndPending', Meteor.userId()).ready() 
@@ -124,12 +124,24 @@ export const composer = ({context}, onData) => {
 			return doc;
 		}
 	}).fetch();
+	
+	getAgentRating();
+	const agentRating = LocalState.get('AgentRating');
 
-    onData(null, {agents, serviceRequestsAccepted, serviceRequestsPending});
+	getServiceRequestAcceptedCount();
+	const acceptedCount = LocalState.get('AcceptedCount');
+
+	getServiceRequestTotalCount();
+	const totalCount = LocalState.get('TotalCount');
+	
+    onData(null, {agents, serviceRequestsAccepted, serviceRequestsPending, agentRating, acceptedCount, totalCount});
   }
 };
 
 export const depsMapper = (context, actions) => ({
+  getAgentRating: actions.agents.getAgentRating,
+  getServiceRequestAcceptedCount: actions.agents.getServiceRequestAcceptedCount,
+  getServiceRequestTotalCount: actions.agents.getServiceRequestTotalCount,
   saveAgentSchedule: actions.agents.saveAgentSchedule,
   completeRequest: actions.agents.completeRequest,
   acceptRequest: actions.agents.acceptRequest,

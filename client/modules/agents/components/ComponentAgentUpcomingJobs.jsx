@@ -6,7 +6,15 @@ class ComponentAgentUpcomingJobs extends React.Component {
 		
 		return (
 			<div className="agent-upcoming-job-container">
-				<span className="font-bold">{NoOfUpcomingJobs && NoOfUpcomingJobs > 0 ? NoOfUpcomingJobs : "No"} Upcoming Jobs</span>
+				<span className="font-bold">
+					{NoOfUpcomingJobs === 0 
+						? "No Upcoming Jobs"
+						: (NoOfUpcomingJobs === 1
+							  ? "1 Upcoming Job"
+							  : NoOfUpcomingJobs + " Upcoming Jobs"
+						  )
+					}
+				</span>
 				<span className="float-right font-bold">Total : RM {SumofUpcomingJobsPayment ? SumofUpcomingJobsPayment : 0}</span>
 			</div>
 		);
