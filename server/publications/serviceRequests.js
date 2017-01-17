@@ -4,9 +4,9 @@ import {check} from 'meteor/check';
 
 export default function () {
   //get all pending service requests
-  Meteor.publish('serviceRequests.AcceptedAndPending', function (userID) {
-    check(userID, String);
-    const agentSelector = {UserID: userID};
+  Meteor.publish('serviceRequests.AcceptedAndPending', function () {
+	  
+    const agentSelector = {UserID: this.userId};
 	const agent = Agents.findOne(agentSelector);
 	
 	if (agent) {
@@ -23,9 +23,9 @@ export default function () {
 	}
   });
   //get all service requests by agent
-  Meteor.publish('serviceRequests.history', function (userID) {
-    check(userID, String);
-    const agentSelector = {UserID: userID};
+  Meteor.publish('serviceRequests.history', function () {
+	  
+    const agentSelector = {UserID: this.userId};
 	const agent = Agents.findOne(agentSelector);
 	
 	if (agent) {

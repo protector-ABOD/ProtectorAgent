@@ -313,6 +313,9 @@ p.login-copyright-text {
 
 /* ######################################### agent home   ######################################### */
 
+.home-calendar-container {
+	padding-bottom: 165px;
+}
 
 /* ################################# agent terms and conditions ################################### */
 
@@ -331,7 +334,6 @@ p.login-copyright-text {
 .pad-radio-label {
 	padding-left: 5px;
 }
-
 
 .protector-select {
 	width: 100%;

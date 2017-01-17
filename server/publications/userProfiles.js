@@ -7,12 +7,10 @@ export default function () {
   //01. Get Agent by agent's user id
   //02. Get ServiceRequest by Agent._id
   //03. Get UserProfile by ServiceRequest.User_ID
-  Meteor.publish('userProfile.byRequestedAgent', function (userID) {
-	//validation
-	check(userID, String);
+  Meteor.publish('userProfile.byRequestedAgent', function () {
 
 	//get agent
-    const agentSelector = {UserID: userID};
+    const agentSelector = {UserID: this.userId};
 	const agent = Agents.findOne(agentSelector);
 
 	if (agent) {

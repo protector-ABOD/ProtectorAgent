@@ -20,7 +20,13 @@ class AgentJobHistory extends React.Component {
 		};
     }
 	openModal(serviceRequest) {
-		this.setState({ isModalOpen: true, serviceRequest : serviceRequest, rating: serviceRequest.Rating_By_Agent });
+		let rating = 5;
+		
+		if (serviceRequest.Service_Request_Status === "Completed") {
+			rating = serviceRequest.Rating_By_Agent;
+		}
+		
+		this.setState({ isModalOpen: true, serviceRequest : serviceRequest, rating: rating });
 	}
 	closeModal() {
 		this.setState({ isModalOpen: false, serviceRequest : null });

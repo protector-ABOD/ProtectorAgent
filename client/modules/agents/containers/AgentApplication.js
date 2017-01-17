@@ -5,7 +5,7 @@ import {useDeps, composeWithTracker, composeAll} from 'mantra-core';
 export const composer = ({context}, onData) => {
   const {Meteor, Collections} = context();
   
-  if (Meteor.subscribe('agents.single', Meteor.userId()).ready()) {
+  if (Meteor.subscribe('agents.single').ready()) {
     const agents = Collections.Agents.findOne();
 	
 	if (agents){

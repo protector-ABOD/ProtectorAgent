@@ -181,11 +181,11 @@ class ComponentAgentCalendar extends React.Component {
 	}
 	handleMouseDown(day) {
 		var today = new Date();
-		var dd = padLeft(today.getDate(), 2);
-		var mm = padLeft(today.getMonth()+1, 2);
+		var dd = today.getDate();
+		var mm = today.getMonth()+1;
 		var yyyy = today.getFullYear();
 		
-		if (yyyy + "/" + mm + "/" + dd > day.year + "/" + padLeft(day.month, 2) + "/" + padLeft(day.date, 2)) {
+		if (Date.parse(yyyy + "/" + mm + "/" + dd) > Date.parse(day.year + "/" + day.month + "/" + day.date)) {
 			//disable editing if date selected is less than current date
 			return;
 		}
@@ -205,6 +205,7 @@ class ComponentAgentCalendar extends React.Component {
 		}
 		
 		if (selectedDate) {
+		
 			if (selectedDate.Availability === "Available") {
 				selectedDate.Availability = "Not Available";
 				
@@ -262,7 +263,7 @@ class ComponentAgentCalendar extends React.Component {
 			var mm = padLeft(today.getMonth()+1, 2);
 			var yyyy = today.getFullYear();
 			
-			if (yyyy + "/" + mm + "/" + dd > day.year + "/" + padLeft(day.month, 2) + "/" + padLeft(day.date, 2)) {
+			if (Date.parse(yyyy + "/" + mm + "/" + dd) > Date.parse(day.year + "/" + day.month + "/" + day.date)) {
 				//disable editing if date selected is less than current date
 				return;
 			}
@@ -282,8 +283,16 @@ class ComponentAgentCalendar extends React.Component {
 			}
 			
 			if (selectedDate) {
+		
 				if (selectedDate.Availability === "Available") {
 					selectedDate.Availability = "Not Available";
+					
+					if (selectedDate.Availability === selectedDate.OriginalAvailability && selectedDate.RowState === "Modified") {
+						selectedDate.RowState = "Unchanged";
+					}
+					else if (selectedDate.RowState === "Unchanged" || selectedDate.RowState == null) {
+						selectedDate.RowState = "Modified";
+					}
 				}
 				else if (selectedDate.Availability === "Not Available") {
 					if (selectedDate.RowState === "Added") {
@@ -291,16 +300,33 @@ class ComponentAgentCalendar extends React.Component {
 					}
 					else if (selectedDate.RowState === "Modified") {
 						selectedDate.Availability = "Default";
+						
+						if (selectedDate.Availability === selectedDate.OriginalAvailability) {
+							selectedDate.RowState = "Unchanged";
+						}
+					}
+					else if  (selectedDate.RowState === "Unchanged" || selectedDate.RowState == null) {
+						selectedDate.Availability = "Default";
+						
+						selectedDate.RowState = "Modified";
 					}
 				}
 				else if (selectedDate.Availability === "Default") {
 					selectedDate.Availability = "Available";
+					
+					if (selectedDate.Availability === selectedDate.OriginalAvailability && selectedDate.RowState === "Modified") {
+						selectedDate.RowState = "Unchanged";
+					}
+					else if (selectedDate.RowState === "Unchanged" || selectedDate.RowState == null) {
+						selectedDate.RowState = "Modified";
+					}
 				}
 			}
 			else {
 				dates.push({
 					Date : day.year + "/" + day.month + "/" + day.date,
 					Availability : "Available",
+					OriginalAvailability : "Available",
 					RowState : "Added"
 				})
 			}
@@ -388,8 +414,8 @@ class ComponentAgentCalendar extends React.Component {
 		
 		if (scheduleDates) {
 			for (var i = 0; i < scheduleDates.length; i++) {
-				if (scheduleDates[i].Date >= calendarDate[0][0].year + "/" + calendarDate[0][0].month + "/" + calendarDate[0][0].date
-					&& scheduleDates[i].Date <= calendarDate[5][6].year + "/" + calendarDate[5][6].month + "/" + calendarDate[5][6].date) {
+				if (Date.parse(scheduleDates[i].Date) >= Date.parse(calendarDate[0][0].year + "/" + calendarDate[0][0].month + "/" + calendarDate[0][0].date)
+					&& Date.parse(scheduleDates[i].Date) <= Date.parse(calendarDate[5][6].year + "/" + calendarDate[5][6].month + "/" + calendarDate[5][6].date)) {
 					scheduleDateRange.push(scheduleDates[i]);
 				}
 			}
@@ -400,8 +426,8 @@ class ComponentAgentCalendar extends React.Component {
 
 		if (serviceRequestsAccepted) {
 			for (var i = 0; i < serviceRequestsAccepted.length; i++) {
-				if (serviceRequestsAccepted[i].Date >= calendarDate[0][0].year + "/" + calendarDate[0][0].month + "/" + calendarDate[0][0].date
-					&& serviceRequestsAccepted[i].Date <= calendarDate[5][6].year + "/" + calendarDate[5][6].month + "/" + calendarDate[5][6].date) {
+				if (Date.parse(serviceRequestsAccepted[i].Date) >= Date.parse(calendarDate[0][0].year + "/" + calendarDate[0][0].month + "/" + calendarDate[0][0].date)
+					&& Date.parse(serviceRequestsAccepted[i].Date) <= Date.parse(calendarDate[5][6].year + "/" + calendarDate[5][6].month + "/" + calendarDate[5][6].date)) {
 					serviceRequestsAcceptedRange.push(serviceRequestsAccepted[i]);
 				}
 			}

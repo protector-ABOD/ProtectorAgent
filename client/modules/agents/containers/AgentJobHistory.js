@@ -5,9 +5,9 @@ import {useDeps, composeWithTracker, composeAll} from 'mantra-core';
 export const composer = ({context}, onData) => {
   const {Meteor, Collections} = context();
   
-  if (Meteor.subscribe('agents.single', Meteor.userId()).ready()
-		&& Meteor.subscribe('serviceRequests.history', Meteor.userId()).ready() 
-		&& Meteor.subscribe('userProfile.byRequestedAgent', Meteor.userId()).ready() 
+  if (Meteor.subscribe('agents.single').ready()
+		&& Meteor.subscribe('serviceRequests.history').ready() 
+		&& Meteor.subscribe('userProfile.byRequestedAgent').ready() 
 		&& Meteor.subscribe('codeTables.country').ready()
 		&& Meteor.subscribe('codeTables.serviceType').ready()) {
 			

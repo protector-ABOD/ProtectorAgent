@@ -38,11 +38,12 @@ export default function () {
 		const agent = Agents.findOne({_id : serviceRequest.Agent_ID});
 
 		//if agent is found, push notification to user
+		//todo: replace hardcoded credit card details
 		if (agent) {
 			Push.send({
 				from: 'push',
 				title: 'Request Accepted',
-				text: agent.FullName + ' has accepted your request.',
+				text: agent.FullName + ' has accepted your request. Your credit card ending with 6880 has been charged with RM' + serviceRequest.Service_Request.Service_Type_Total_Price,
 				badge: 1,
 				query: {userId : serviceRequest.User_ID},
 				payload: {

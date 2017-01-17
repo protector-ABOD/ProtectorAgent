@@ -65,7 +65,7 @@ class AgentHome extends React.Component {
 		
 		return (
 			<div className="agent-home pad-top-percent-10">
-				<div className="row">
+				<div className="row home-calendar-container">
 					<div className="col-xs-12">
 						<ComponentAgentCalendar 
 							OnSave={(dates) => this.saveSchedule(dates)} 
