@@ -129,12 +129,7 @@ export default {
         //return LocalState.set('SAVING_ERROR', err.message);
       }
 	  else {
-		  if (response.length > 0) {
-		      return LocalState.set('TotalCount', response[0].totalCount);
-		  }
-		  else {
-		      return LocalState.set('TotalCount', 0);
-		  }
+		return LocalState.set('TotalCount', response);
 	  }
     });
   }

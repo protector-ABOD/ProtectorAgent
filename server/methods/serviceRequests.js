@@ -164,13 +164,21 @@ export default function () {
 		const agent = Agents.findOne(agentSelector);
 		
 		if (agent) {		
-			const _id = new MongoInternals.NpmModule.ObjectID(agent._id._str);
+			//const _id = new MongoInternals.NpmModule.ObjectID(agent._id._str);
 			const filter = {
-				Agent_ID : _id,
-				$or : [{Service_Request_Status : "Accepted"}, {Service_Request_Status : "Completed"}, {Service_Request_Status : "Rejected"}],
-				Active_Status : 1
+				$or : [{
+					Agent_ID : agent._id,
+					$or : [{Service_Request_Status : "Accepted"}, {Service_Request_Status : "Completed"}, {Service_Request_Status : "Rejected"}],
+					Active_Status : 1
+				}, {
+					Agents_Rejected : { $elemMatch:{ Agent_ID : agent._id } },
+					Active_Status : 1
+				}]
 			}
 			
+			return ServiceRequests.find(filter).fetch().length;
+			
+			/*
 			const group = {
 				"_id" : {
 					Agent_ID : '$Agent_ID'
@@ -187,10 +195,10 @@ export default function () {
 				{   
 					$group : group
 				}  
-			);
+			);*/
 		}
 		else {
-			return [];
+			return 0;
 		}
     }
   });
