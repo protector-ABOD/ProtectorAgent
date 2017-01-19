@@ -34,7 +34,7 @@ class AgentHome extends React.Component {
 			noOfJobs = serviceRequestsAccepted.length;
 			
 			for (var i = 0; i < serviceRequestsAccepted.length; i++) {
-				sumOfJobPrice += parseInt(serviceRequestsAccepted[i].Service_Request.Service_Type_Total_Price);
+				sumOfJobPrice += parseInt(serviceRequestsAccepted[i].Service_Request.Service_Total_Price);
 			}
 		}
 			

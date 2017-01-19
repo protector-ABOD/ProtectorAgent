@@ -43,7 +43,8 @@ function CalendarCell(props) {
 		if (props.day.month == props.currentMonth + 1) {
 			elementToRender = 	<td className={cssClass} 
 									onMouseDown={() => props.onMouseDown()} 
-									onMouseEnter={() => props.onMouseEnter()}>
+									onMouseEnter={() => props.onMouseEnter()}
+									onTouchStart={(event) => props.onTouchStart(event)}>
 										<span>{props.day.date}</span>
 								</td>
 		}
@@ -52,7 +53,8 @@ function CalendarCell(props) {
 			
 			elementToRender = 	<td className={cssClass} 
 									onMouseDown={() => props.onMouseDown()} 
-									onMouseEnter={() => props.onMouseEnter()}>
+									onMouseEnter={() => props.onMouseEnter()}
+									onTouchStart={(event) => props.onTouchStart(event)}>
 										<span>{props.day.date}</span>
 								</td>
 		}
@@ -89,7 +91,8 @@ function CalendarRow(props) {
 					acceptedDates={props.acceptedDates} 
 					onMouseDown={() => props.onMouseDown(day)} 
 					onMouseEnter={() => props.onMouseEnter(day)} 
-					onOccupiedClick={(serviceRequest) => props.onOccupiedClick(serviceRequest)} />
+					onOccupiedClick={(serviceRequest) => props.onOccupiedClick(serviceRequest)}
+					onTouchStart={(event) => props.onTouchStart(event, day)}  />
 			)}
 		</tr>
 	);
@@ -103,7 +106,6 @@ class ComponentAgentCalendar extends React.Component {
 		this.state = {
 			currentMonth: new Date().getMonth(), //jan = 0, feb = 1, ... , dec = 11
 			currentYear: new Date().getFullYear(),
-			scheduleDates : (props.ScheduleDates ? props.ScheduleDates : []),
 			isModalOpen: false,
 			selectedRequest : null,
 			rating : 5
@@ -112,6 +114,9 @@ class ComponentAgentCalendar extends React.Component {
 		this.documentMouseDownHandler = this.documentMouseDownHandler.bind(this);
 		this.documentMouseUpHandler = this.documentMouseUpHandler.bind(this);
     }
+	componentWillReceiveProps(nextProps) {
+		this.setState({scheduleDates : (nextProps.ScheduleDates ? nextProps.ScheduleDates : [])});
+	}
 	componentDidMount() {
 		window.addEventListener('mousedown', this.documentMouseDownHandler, false);
 		window.addEventListener('mouseup', this.documentMouseUpHandler, false);
@@ -254,6 +259,11 @@ class ComponentAgentCalendar extends React.Component {
 		}
 		
 		this.setState({scheduleDates : dates});
+	}
+	handleTouchStart(event, day) {
+		//alert('a');
+		//e.preventDefault();
+		//e.target.onClick();
 	}
 	handleMouseEnter(day) {
 		if (this.isMouseDown) {
@@ -496,7 +506,8 @@ class ComponentAgentCalendar extends React.Component {
 										acceptedDates={serviceRequestsAcceptedRange}
 										onMouseDown={(day) => this.handleMouseDown(day)} 
 										onMouseEnter={(day) => this.handleMouseEnter(day)}
-										onOccupiedClick={(serviceRequest) => this.onOccupiedClick(serviceRequest)}/>
+										onOccupiedClick={(serviceRequest) => this.onOccupiedClick(serviceRequest)}
+										onTouchStart={(event, day) => this.handleTouchStart(event, day)}/>
 								))}
 							</tbody>
 						</table>

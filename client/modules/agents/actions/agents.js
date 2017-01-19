@@ -21,7 +21,7 @@ export default {
   saveAgentSchedule({Meteor}, scheduleDates) {
 	  
 	if (scheduleDates.length === 0) {
-		alert('Saved successfully');
+		alert('Saved successfully.', null, "Information", "Ok");
 		return;
 	}
 	
@@ -43,7 +43,7 @@ export default {
 	}
 	
 	if (scheduleDatesToSave.length === 0) {
-		alert('Saved successfully');
+		alert('Saved successfully.', null, "Information", "Ok");
 		return;
 	}
 	  
@@ -53,7 +53,7 @@ export default {
         //return LocalState.set('SAVING_ERROR', err.message);
       }
 	  else {
-		alert('Saved successfully');
+		alert('Saved successfully.', null, "Information", "Ok");
 	  }
     });
   },
@@ -64,7 +64,7 @@ export default {
         //return LocalState.set('SAVING_ERROR', err.message);
       }
 	  else {
-		alert('Request has been completed.');
+		alert('Request has been completed.', null, "Information", "Ok");
 	  }
     });
   },
@@ -75,7 +75,7 @@ export default {
         //return LocalState.set('SAVING_ERROR', err.message);
       }
 	  else {
-		alert('Your have accepted the request.');
+		alert('Your have accepted the request.', null, "Information", "Ok");
 	  }
     });
   },
@@ -86,12 +86,12 @@ export default {
         //return LocalState.set('SAVING_ERROR', err.message);
       }
 	  else {
-		alert('You have rejected the request');
+		alert('You have rejected the request.', null, "Information", "Ok");
 	  }
     });
   },
   getAgentRating({Meteor, LocalState}) {
-    Meteor.call('serviceRequest.AgentRating', Meteor.userId(), (err, response) => {
+    Meteor.call('serviceRequest.AgentRating', (err, response) => {
       if (err) {
 		console.log("error");
         //return LocalState.set('SAVING_ERROR', err.message);
@@ -107,7 +107,7 @@ export default {
     });
   },
   getServiceRequestAcceptedCount({Meteor, LocalState}) {
-    Meteor.call('serviceRequest.ServiceRequestAcceptedCount', Meteor.userId(), (err, response) => {
+    Meteor.call('serviceRequest.ServiceRequestAcceptedCount', (err, response) => {
       if (err) {
 		console.log("error");
         //return LocalState.set('SAVING_ERROR', err.message);
@@ -123,7 +123,7 @@ export default {
     });
   },
   getServiceRequestTotalCount({Meteor, LocalState}) {
-    Meteor.call('serviceRequest.ServiceRequestTotalCount', Meteor.userId(), (err, response) => {
+    Meteor.call('serviceRequest.ServiceRequestTotalCount', (err, response) => {
       if (err) {
 		console.log("error");
         //return LocalState.set('SAVING_ERROR', err.message);

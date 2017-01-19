@@ -51,7 +51,7 @@ function RequestRow(props) {
 									{request.Service_Request.Service_State_Description}
 								</td>
 								<td className="align-right">
-									RM {request.Service_Request.Service_Type_Total_Price}
+									RM {request.Service_Request.Service_Total_Price}
 								</td>
 							</tr>
 							<tr>
@@ -187,6 +187,7 @@ class ComponentAgentRequests extends React.Component {
 				<PopupServiceRequest 
 					serviceRequest={selectedRequest ? selectedRequest : null}
 					isOpen={this.state.isModalOpen} 
+					onClose={() => this.closeModal()}
 					onAcceptRequest={() => this.acceptRequest()}
 					onRejectRequest={() => this.rejectRequest()}>
 						{selectedRequest ?

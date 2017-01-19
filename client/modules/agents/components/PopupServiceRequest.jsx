@@ -69,15 +69,17 @@ export default class PopupServiceRequest extends Component {
 				null
 			  }
 			  {this.props.serviceRequest.Service_Request_Status === "Accepted" ?
-			    <div className="modal-footer">
+			    <div className="modal-footer align-middle">
 				  <button type="button" className="btn btn-success btn-49" onClick={e => this.complete(e)}>Complete</button><button type="button" className="btn btn-danger btn-49" onClick={e => this.close(e)}>Close</button>
 			    </div>
 				:
 				null
 			  }
 			  {this.props.serviceRequest.Service_Request_Status === "Pending" ?
-			    <div className="modal-footer">
-				  <button type="button" className="btn btn-success btn-49" onClick={e => this.accept(e)}>Accept</button><button type="button" className="btn btn-danger btn-49" onClick={e => this.reject(e)}>Reject</button>
+			    <div className="modal-footer align-middle">
+				  <button type="button" className="btn btn-success btn-30" onClick={e => this.accept(e)}>Accept</button>
+				  <button type="button" className="btn btn-danger btn-30" onClick={e => this.reject(e)}>Reject</button>
+				  <button type="button" className="btn btn-danger btn-30" onClick={e => this.close(e)}>Close</button>
 			    </div>
 				:
 				null

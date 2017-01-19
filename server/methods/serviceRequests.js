@@ -43,7 +43,7 @@ export default function () {
 			Push.send({
 				from: 'push',
 				title: 'Request Accepted',
-				text: agent.FullName + ' has accepted your request. Your credit card ending with 6880 has been charged with RM' + serviceRequest.Service_Request.Service_Type_Total_Price,
+				text: agent.FullName + ' has accepted your request. Your credit card ending with 6880 has been charged with RM' + serviceRequest.Service_Request.Service_Total_Price,
 				badge: 1,
 				query: {userId : serviceRequest.User_ID},
 				payload: {
@@ -85,10 +85,9 @@ export default function () {
 			});
 		}
     },
-	'serviceRequest.AgentRating'(userId) {
-		check( userId, String );
+	'serviceRequest.AgentRating'() {
 		
-		const agentSelector = {UserID: userId};
+		const agentSelector = {UserID: this.userId};
 		const agent = Agents.findOne(agentSelector);
 		
 		if (agent) {		
@@ -121,10 +120,9 @@ export default function () {
 			return [];
 		}
     },
-	'serviceRequest.ServiceRequestAcceptedCount'(userId) {
-		check( userId, String );
+	'serviceRequest.ServiceRequestAcceptedCount'() {
 		
-		const agentSelector = {UserID: userId};
+		const agentSelector = {UserID: this.userId};
 		const agent = Agents.findOne(agentSelector);
 		
 		if (agent) {		
@@ -157,10 +155,9 @@ export default function () {
 			return [];
 		}
     },
-	'serviceRequest.ServiceRequestTotalCount'(userId) {
-		check( userId, String );
+	'serviceRequest.ServiceRequestTotalCount'() {
 		
-		const agentSelector = {UserID: userId};
+		const agentSelector = {UserID: this.userId};
 		const agent = Agents.findOne(agentSelector);
 		
 		if (agent) {		

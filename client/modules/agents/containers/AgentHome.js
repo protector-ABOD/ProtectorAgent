@@ -5,14 +5,13 @@ import {useDeps, composeWithTracker, composeAll} from 'mantra-core';
 export const composer = ({context, getAgentRating, getServiceRequestAcceptedCount, getServiceRequestTotalCount}, onData) => {
   const {Meteor, Collections, LocalState} = context();
 
-  if (Meteor.subscribe('agents.single').ready()
-		&& Meteor.subscribe('serviceRequests.AcceptedAndPending').ready() 
-		&& Meteor.subscribe('userProfile.byRequestedAgent').ready() 
+  if (Meteor.subscribe('agents.single').ready() 
 		&& Meteor.subscribe('codeTables.country').ready()
-		&& Meteor.subscribe('codeTables.serviceType').ready()) {
+		&& Meteor.subscribe('codeTables.serviceType').ready()
+		&& Meteor.subscribe('userProfile.byRequestedAgent').ready() 
+		&& Meteor.subscribe('serviceRequests.AcceptedAndPending').ready()) {
 
     const agents = Collections.Agents.findOne({}, {
-		reactive: false,
 		transform: function (doc) {
 			
 			if (doc.Schedule) {
@@ -41,7 +40,8 @@ export const composer = ({context, getAgentRating, getServiceRequestAcceptedCoun
 		transform: function (doc) {
 
 			if (doc.Service_Request) {
-				let serviceRequestDate = doc.Service_Request.Service_Start_Time.slice(0, 10).split("-");
+				
+				let serviceRequestDate = doc.Service_Request.Service_Start_Time.toISOString().slice(0, 10).split("-");
 				
 				doc.Date = serviceRequestDate[0] + "/" + parseInt(serviceRequestDate[1], 10) + "/" + parseInt(serviceRequestDate[2], 10);
 				
