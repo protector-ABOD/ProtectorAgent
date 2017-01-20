@@ -69,7 +69,6 @@ class AgentHome extends React.Component {
 					<div className="col-xs-12">
 						<ComponentAgentCalendar 
 							OnSave={(dates) => this.saveSchedule(dates)} 
-							OnCompleteRequest={(request) => this.completeRequest(request)} 
 							ScheduleDates={agents ? agents.Schedule : []} 
 							ServiceRequestsAccepted={serviceRequestsAccepted ? serviceRequestsAccepted : []}/>
 					</div>

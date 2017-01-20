@@ -10,6 +10,7 @@ export default function () {
   Meteor.publish('userProfile.byRequestedAgent', function () {
 
 	//get agent
+	/*
     const agentSelector = {UserID: this.userId};
 	const agent = Agents.findOne(agentSelector);
 
@@ -29,6 +30,8 @@ export default function () {
 	}
 	else {
 		this.ready();
-	}
+	}*/
+	
+	return UserProfiles.find({});
   });
 }

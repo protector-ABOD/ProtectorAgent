@@ -1,5 +1,5 @@
 import React from 'react';
-import PopupServiceRequest from './PopupServiceRequest.jsx';
+import PopupServiceRequestList from './PopupServiceRequestList.jsx';
 
 function padLeft(nr, n, str){
     return Array(n-String(nr).length+1).join(str||'0')+nr;
@@ -62,7 +62,7 @@ function CalendarCell(props) {
 	else {
 		if (props.day.month == props.currentMonth + 1) {
 			elementToRender = 	<td className={cssClass} 
-									onClick={() => props.onOccupiedClick(serviceRequest)}>
+									onClick={() => props.onOccupiedClick()}>
 									<span>{props.day.date}</span>
 								</td>
 		}
@@ -70,7 +70,7 @@ function CalendarCell(props) {
 			cssClass = cssClass + " color-fade";
 			
 			elementToRender = 	<td className={cssClass} 
-									onClick={() => props.onOccupiedClick(serviceRequest)}>
+									onClick={() => props.onOccupiedClick()}>
 									<span>{props.day.date}</span>
 								</td>
 		}
@@ -91,7 +91,7 @@ function CalendarRow(props) {
 					acceptedDates={props.acceptedDates} 
 					onMouseDown={() => props.onMouseDown(day)} 
 					onMouseEnter={() => props.onMouseEnter(day)} 
-					onOccupiedClick={(serviceRequest) => props.onOccupiedClick(serviceRequest)}
+					onOccupiedClick={() => props.onOccupiedClick(day)}
 					onTouchStart={(event) => props.onTouchStart(event, day)}  />
 			)}
 		</tr>
@@ -107,7 +107,8 @@ class ComponentAgentCalendar extends React.Component {
 			currentMonth: new Date().getMonth(), //jan = 0, feb = 1, ... , dec = 11
 			currentYear: new Date().getFullYear(),
 			isModalOpen: false,
-			selectedRequest : null,
+			scheduleDates : (props.ScheduleDates ? props.ScheduleDates : []),
+			selectedDay : null,
 			rating : 5
 		};
 		
@@ -121,11 +122,11 @@ class ComponentAgentCalendar extends React.Component {
 		window.addEventListener('mousedown', this.documentMouseDownHandler, false);
 		window.addEventListener('mouseup', this.documentMouseUpHandler, false);
 	}
-	openModal(serviceRequest) {
-		this.setState({ isModalOpen: true, selectedRequest : serviceRequest });
+	openModal(day) {
+		this.setState({ isModalOpen: true, selectedDay : day });
 	}
 	closeModal() {
-		this.setState({ isModalOpen: false, selectedRequest : null });
+		this.setState({ isModalOpen: false, selectedDay : null });
 	}
 	onRatingClick(event) {
 		if (event && event.preventDefault) {
@@ -134,21 +135,6 @@ class ComponentAgentCalendar extends React.Component {
 		
 		let rating = parseInt(event.target.getAttribute('data-value'));
 		this.setState({ rating: rating });
-	}
-	completeRequest() {
-		
-		const {comment} = this.refs;
-		const rating = this.state.rating;
-		
-		let serviceRequest = {};
-		
-		serviceRequest._id = this.state.selectedRequest._id;
-		serviceRequest.Comment_By_Agent = comment.value;
-		serviceRequest.Rating_By_Agent = rating;
-		
-		this.props.OnCompleteRequest(serviceRequest);
-		
-		this.setState({ isModalOpen: false, selectedRequest: null, rating : 5 });
 	}
 	prevMonth(event) {
 		if (event && event.preventDefault) {
@@ -344,13 +330,13 @@ class ComponentAgentCalendar extends React.Component {
 			this.setState({scheduleDates : dates});
 		}
 	}
-	onOccupiedClick(serviceRequest) {
+	onOccupiedClick(day) {
 		if (event && event.preventDefault) {
 		  event.preventDefault();
 		}
 		
 		if (!this.state.isModalOpen) {
-			this.openModal(serviceRequest);
+			this.openModal(day);
 		}
 	}
 	documentMouseDownHandler(event) {
@@ -434,23 +420,22 @@ class ComponentAgentCalendar extends React.Component {
 		let serviceRequestsAccepted = this.props.ServiceRequestsAccepted;
 		let serviceRequestsAcceptedRange = [];
 
+		let selectedCalendarDay = this.state.selectedDay;
+		let selectedCalendarDayRequests = [];
+		
 		if (serviceRequestsAccepted) {
 			for (var i = 0; i < serviceRequestsAccepted.length; i++) {
 				if (Date.parse(serviceRequestsAccepted[i].Date) >= Date.parse(calendarDate[0][0].year + "/" + calendarDate[0][0].month + "/" + calendarDate[0][0].date)
 					&& Date.parse(serviceRequestsAccepted[i].Date) <= Date.parse(calendarDate[5][6].year + "/" + calendarDate[5][6].month + "/" + calendarDate[5][6].date)) {
 					serviceRequestsAcceptedRange.push(serviceRequestsAccepted[i]);
 				}
+				
+				if (selectedCalendarDay != null) {
+					if (Date.parse(serviceRequestsAccepted[i].Date) === Date.parse(selectedCalendarDay.year + "/" + selectedCalendarDay.month + "/" + selectedCalendarDay.date)) {
+						selectedCalendarDayRequests.push(serviceRequestsAccepted[i]);
+					}
+				}
 			}
-		}
-		
-		let selectedRequest;
-		let startDate;
-		let createdDate;
-
-		if (this.state.selectedRequest) {
-			selectedRequest = this.state.selectedRequest;
-			startDate = new Date(selectedRequest.Service_Request.Service_Start_Time);
-			createdDate = new Date(selectedRequest.Created_DateTime);
 		}
 		
 		return (
@@ -506,128 +491,68 @@ class ComponentAgentCalendar extends React.Component {
 										acceptedDates={serviceRequestsAcceptedRange}
 										onMouseDown={(day) => this.handleMouseDown(day)} 
 										onMouseEnter={(day) => this.handleMouseEnter(day)}
-										onOccupiedClick={(serviceRequest) => this.onOccupiedClick(serviceRequest)}
+										onOccupiedClick={(day) => this.onOccupiedClick(day)}
 										onTouchStart={(event, day) => this.handleTouchStart(event, day)}/>
 								))}
 							</tbody>
 						</table>
 					</div>
 				</div>
-				<PopupServiceRequest 
-					serviceRequest={selectedRequest ? selectedRequest : null}
+				<PopupServiceRequestList 
 					isOpen={this.state.isModalOpen} 
-					onClose={() => this.closeModal()}
-					onCompleteRequest={() => this.completeRequest()}>
-						{selectedRequest ?
-							<div>
-								<div className="row pad-btm-15">
-									<div className="col-xs-12">
-										{selectedRequest.User.Full_Name}
-									</div>
-								</div>
-								<div className="row pad-btm-15">
-									<div className="col-xs-12">
-										{selectedRequest.User.Gender}
-									</div>
-								</div>
-								{this.state.selectedRequest.Service_Request_Status === "Accepted" 
-									?
-										<div>
-											<div className="row pad-btm-15">
+					onClose={() => this.closeModal()}>
+						{selectedCalendarDayRequests.length > 0 ?
+							<div className="popup-service-request-list-content">
+								{selectedCalendarDayRequests.map(function(selectedCalendarDayRequest, index) {
+									const startDate = new Date(selectedCalendarDayRequest.Service_Request.Service_Start_Time);
+									return (
+										<div key={selectedCalendarDayRequest._id._str}>
+											<div className="row">
 												<div className="col-xs-12">
-													<div className="rating-star">
-														<i className={this.state.rating > 0 ? "fa fa-star fw" : "fa fa-star-o fw"} data-value="1" onClick={(event) => this.onRatingClick(event)}></i>
+													<div className="row pad-btm-10">
+														<div className="col-xs-6">
+															{
+															 + padLeft(startDate.getHours(), 2)
+															 + ":"
+															 + padLeft(startDate.getMinutes(), 2)
+															 + " - "
+															 + padLeft((startDate.getHours() + parseInt(selectedCalendarDayRequest.Service_Request.Service_Duration_Value)) % 24, 2)
+															 + ":"
+															 + padLeft(startDate.getMinutes(), 2)
+															}
+														</div>
+														<div className="col-xs-6 align-right">
+															{selectedCalendarDayRequest.Service_Request.Service_Type_Description}
+														</div>
 													</div>
-													<div className="rating-star">
-														<i className={this.state.rating > 1 ? "fa fa-star fw" : "fa fa-star-o fw"} data-value="2" onClick={(event) => this.onRatingClick(event)}></i>
-													</div>
-													<div className="rating-star">
-														<i className={this.state.rating > 2 ? "fa fa-star fw" : "fa fa-star-o fw"} data-value="3" onClick={(event) => this.onRatingClick(event)}></i>
-													</div>
-													<div className="rating-star">
-														<i className={this.state.rating > 3 ? "fa fa-star fw" : "fa fa-star-o fw"} data-value="4" onClick={(event) => this.onRatingClick(event)}></i>
-													</div>
-													<div className="rating-star">
-														<i className={this.state.rating > 4 ? "fa fa-star fw" : "fa fa-star-o fw"} data-value="5" onClick={(event) => this.onRatingClick(event)}></i>
+													<div className="row pad-btm-10">
+														<div className="col-xs-6">
+															{selectedCalendarDayRequest.User.Full_Name}
+														</div>
+														<div className="col-xs-6 align-right">
+															{selectedCalendarDayRequest.Service_Request.Service_State_Description}
+														</div>
 													</div>
 												</div>
 											</div>
+											{index === selectedCalendarDayRequests.length - 1 
+												?
+												null
+												:
+												<div className="row pad-btm-10">
+													<div className="col-xs-12">
+														<div className="horizontal-line"></div>
+													</div>
+												</div>
+											}
 										</div>
-									:
-									null
-								}
-								<div className="row pad-btm-15">
-									<div className="col-xs-12">
-										{selectedRequest.Service_Request.Service_Type_Description}
-									</div>
-								</div>
-								<div className="row pad-btm-15">
-									<div className="col-xs-8">
-										{padLeft(startDate.getDate(), 2) 
-										 + "/" 
-										 + padLeft(startDate.getMonth() + 1, 2) 
-										 + "/" 
-										 + startDate.getFullYear()
-										 + " "
-										 + padLeft(startDate.getHours(), 2)
-										 + ":"
-										 + padLeft(startDate.getMinutes(), 2)
-										}
-									</div>
-									<div className="col-xs-4 align-right">
-										{selectedRequest.Service_Request.Service_Duration_Value} Hours
-									</div>
-								</div>
-								<div className="row pad-btm-15">
-									<div className="col-xs-12">
-										{selectedRequest.Service_Request.Service_State_Description}
-									</div>
-								</div>
-								<div className="row pad-btm-15">
-									<div className="col-xs-12">
-										Remarks
-									</div>
-								</div>
-								
-								{this.state.selectedRequest.Service_Request_Status === "Accepted" 
-									?
-										<div>
-											<div className="row pad-btm-15">
-												<div className="col-xs-12">
-													Comment
-												</div>
-											</div>
-											<div className="row pad-btm-15">
-												<div className="col-xs-12">
-													<textarea ref="comment" className="form-control" />
-												</div>
-											</div>
-										</div>
-									:
-									null
-								}
-								{this.state.selectedRequest.Service_Request_Status === "Pending"
-									?
-										<div>
-											<div className="row pad-btm-15">
-												<div className="col-xs-12">
-													Remarks
-												</div>
-											</div>
-											<div className="row pad-btm-15">
-												<div className="col-xs-12">
-													<textarea className="form-control" value={selectedRequest.Service_Remark} readOnly={true} />
-												</div>
-											</div>
-										</div>
-									:
-									null
-								}
+									)
+								})}
 							</div>
 							:
 							null
 						}
-				</PopupServiceRequest>
+				</PopupServiceRequestList>
 			</div>
 		);
 	}

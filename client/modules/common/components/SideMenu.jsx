@@ -14,6 +14,9 @@ class SideMenu extends React.Component {
 		super(props, context);
 	}
 	navigateTo (path) {
+		const {onStateChange} = this.props;
+		onStateChange({isSideMenuOpen : false});
+		
 		FlowRouter.go("/agent/" + path);
 	}
 	render() {
@@ -21,7 +24,7 @@ class SideMenu extends React.Component {
 		let elementToRender;
 
 		if (agent) {
-			elementToRender = 	<Menu isOpen={ this.props.isOpen } customBurgerIcon={ false } customCrossIcon={ false }>
+			elementToRender = 	<Menu isOpen={ this.props.isOpen } customBurgerIcon={ false } customCrossIcon={ false } onStateChange={(state) => this.props.onStateChange(state)}>
 									<div className="portrait-container">
 										<img className="menu-portrait" src="/images/profile-image-placeholder.png" />
 										<span>{agent.FullName}</span>
