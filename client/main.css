@@ -41,6 +41,16 @@ p {
 	text-align: center;
 }
 
+.main-container-background {
+	background: url(/images/Login_bg.jpg) no-repeat center center fixed; 
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	width:100%;
+	min-height:100%;
+}
+
 .main-container {
 	padding: 15px;
 }
@@ -286,15 +296,6 @@ p {
 
 /* #########################################    login     ######################################### */
 
-.login-body-container {
-	background: url(/images/Login_bg.jpg) no-repeat center center fixed; 
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
-	width:100%;
-	min-height:100%;
-}
 
 #login-logo {
 	width:100%;
