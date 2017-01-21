@@ -13,11 +13,13 @@ class SideMenu extends React.Component {
 	constructor(props, context) {
 		super(props, context);
 	}
-	navigateTo (path) {
+	navigateTo (event) {
+		if (event && event.preventDefault) {
+		  event.preventDefault();
+		}
+		
 		const {onStateChange} = this.props;
 		onStateChange({isSideMenuOpen : false});
-		
-		FlowRouter.go("/agent/" + path);
 	}
 	render() {
 		const {agent} = this.props;
@@ -29,9 +31,9 @@ class SideMenu extends React.Component {
 										<img className="menu-portrait" src="/images/profile-image-placeholder.png" />
 										<span>{agent.FullName}</span>
 									</div>
-									<a id="home" className="menu-item" href="/" onClick={() => this.navigateTo("home")}><i className="fa fa-home fa-fw" /><span>Home</span></a>
-									<a id="profile" className="menu-item" href="/" onClick={() => this.navigateTo("profile")}><i className="fa fa-user fa-fw" /><span>Profile</span></a>
-									<a id="history" className="menu-item" href="/" onClick={() => this.navigateTo("job-history")}><i className="fa fa fa-clock-o fa-fw" /><span>History</span></a>
+									<a id="home" className="menu-item" href={FlowRouter.path("/agent/home")} onClick={(event) => this.navigateTo(event)}><i className="fa fa-home fa-fw" /><span>Home</span></a>
+									<a id="profile" className="menu-item" href={FlowRouter.path("/agent/profile")} onClick={(event) => this.navigateTo(event)}><i className="fa fa-user fa-fw" /><span>Profile</span></a>
+									<a id="history" className="menu-item" href={FlowRouter.path("/agent/job-history")} onClick={(event) => this.navigateTo(event)}><i className="fa fa fa-clock-o fa-fw" /><span>History</span></a>
 									<a id="signout" className="menu-item" href="/logout"><i className="fa fa-sign-out fa-fw" /><span>Sign Out</span></a>
 								</Menu>
 		}
